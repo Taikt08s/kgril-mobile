@@ -26,4 +26,15 @@ class TImages {
   static const String forgetPassword =
       "assets/images/password_reset/forget-password.png";
 
+  //--Categories Icon
+  static const String twoPeopleIcon = "assets/icons/categories/group-two.png";
+  static const String threePeopleIcon = "assets/icons/categories/group-three.png";
+  static const String fourPeopleIcon = "assets/icons/categories/group-four.png";
+  static const String fivePeopleIcon = "assets/icons/categories/group-five.png";
+
+//--Banners Images
+  static const String bannerImages1 = "assets/images/banners/introduction-carousel.jpg";
+  static const String bannerImages2 = "assets/images/banners/welcome-back-combo-carousel.png";
+  static const String bannerImages3 = "assets/images/banners/zalo-carousel.png";
+  static const String bannerImages4 = "assets/images/banners/tenor.gif";
 }
