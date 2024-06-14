@@ -1,11 +1,11 @@
 class TTexts {
 
-static const String onBoardingTitle1 = "Shop our T-shirt collection";
-static const String onBoardingTitle2 = "Customized T-shirts or Discounted Items!";
-static const String onBoardingTitle3 = "Get your hands on your Tee quickly";
-static const String onBoardingSubTitle1 = "Step into a World of Endless T-shirt Choices! Find Your Perfect Tee Today!";
-static const String onBoardingSubTitle2 = "Explore our range of Customized T-shirts or check out our selection of Discounted Items for great deals!";
-static const String onBoardingSubTitle3 = "From Our Storefront to Your Closet - Swift, Secure, and Contactless Tee Delivery!";
+static const String onBoardingTitle1 = "Lựa chọn hàng đầu về món nướng";
+static const String onBoardingTitle2 = "Giao hàng thần tốc";
+static const String onBoardingTitle3 = "Thanh toán dễ dàng";
+static const String onBoardingSubTitle1 = "Băn khoăn không biết ăn gì cùng bạn bè? Hãy để chúng tôi là lựa chọn số 1 của bạn về đồ nướng Hàn Quốc";
+static const String onBoardingSubTitle2 = "Đặt combo giao hàng tận nhà nhanh chóng lấp đầy chiếc bụng đói của bạn với những món ngon yêu thích và dịch vụ giao hàng “thần tốc”.";
+static const String onBoardingSubTitle3 = "Giao và nhận đồ ăn thật dễ dàng. Có thể thanh toán bằng rất nhiều hình thức.";
 
 static const String homeAppbarTitle1 = "Feel Good, Look Great";
 static const String homeAppbarTitle2 = "Comfort and Cheer in Every Tee";
@@ -19,44 +19,44 @@ static const String homeAppbarTitle9 = "Create. Wear. Inspire.";
 static const String homeAppbarTitle10 = "Express Yourself, Stitch by Stitch";
 
 //Authentication Form Text
-  static const String firstName = "First Name";
-  static const String lastName = "Last Name";
+  static const String firstName = "Họ";
+  static const String lastName = "Tên";
   static const String email = "E-Mail";
-  static const String password = "Password";
+  static const String password = "Mật Khẩu";
   static const String newPassword = "New Password";
-  static const String username = "Username";
-  static const String phoneNo = "Phone Number";
-  static const String rememberMe = "Remember Me";
-  static const String forgetPassword = "Forget Password?";
-  static const String signIn = "Sign In";
-  static const String createAccount = "Create Account";
-  static const String orSignInWith = "Or continue with";
-  static const String orSignUpWith = "or sign up with";
-  static const String iAgreeTo = "I have read and agree to";
-  static const String and = "and";
-  static const String privacyPolicy = "Privacy Policy";
-  static const String termsOfUse = "Terms of Service";
+  static const String address = "Địa chỉ";
+  static const String phoneNo = "Số điện thoại";
+  static const String rememberMe = "Duy trì đăng nhập";
+  static const String forgetPassword = "Quên mật khẩu?";
+  static const String signIn = "Đăng nhập";
+  static const String createAccount = "Tạo tài khoản";
+  static const String orSignInWith = "Hoặc tiếp tục với";
+  static const String orSignUpWith = "Hoặc đăng nhập bằng";
+  static const String iAgreeTo = "Tôi đã đọc và đồng ý với";
+  static const String and = "và";
+  static const String privacyPolicy = "Chính sách bảo mật";
+  static const String termsOfUse = "Điều khoản dịch vụ";
   static const String verificationCode = "verificationCode";
-  static const String resendEmail = "Resend Email";
+  static const String resendEmail = "Gửi lại email";
   static const String resendEmailIn = "Resend email in";
-  static const String tContinue = "Continue";
-  static const String submit = "Submit";
-  static const String done = "Done";
+  static const String tContinue = "Tiếp tục";
+  static const String submit = "Gửi";
+  static const String done = "Xong";
 
 
 // Authentication Headings Text
-  static const String loginTitle = "Welcome back, ";
-  static const String loginSubTitle = "Discover a Universe of Choices with Unmatched Convenience";
-  static const String signupTitle = "Let's create new account";
-  static const String forgetPasswordTitle = "Forget password";
-  static const String forgetPasswordSubTitle = "Don't worry sometimes people can forget too, enter your email and we will send you a password reset link.";
-  static const String changeYourPasswordTitle = "Password Reset Email Sent";
-  static const String changeYourPasswordSubTitle = "Your Account Security is Our Priority! We've Sent You a Secure Link to Safely Change Your Password and Keep Your Account Protected.";
-  static const String confirmEmail = "Verify your email address!";
-  static const String confirmEmailSubTitle = "Nekotee Awaits You! Verify Your Email to Unlock Shopping Magic and Dive into a Sea of Unmatched Deals and Customized Offers.";
-  static const String emailNotReceivedMessage = "Didn't get the email? Check your junk/spam or resend it.";
-  static const String yourAccountCreatedTitle = "Your account successfully created!";
-  static const String yourAccountCreatedSubTitle = "Welcome to Your Ultimate Shopping Destination: Your Account is Created, Unleash the Joy of Seamless Online Shopping!";
+  static const String loginTitle = "Chào mừng quay trở lại,";
+  static const String loginSubTitle = "Khám Phá Thế Giới Combo với Sự Tiện Lợi Không Gì Sánh Bằng";
+  static const String signupTitle = "Hãy tạo tài khoản";
+  static const String forgetPasswordTitle = "Quên mật khẩu";
+  static const String forgetPasswordSubTitle = "Đừng lo, đôi khi mọi người cũng có thể quên. Nhập email của bạn và chúng tôi sẽ gửi cho bạn một liên kết đặt lại mật khẩu.";
+  static const String changeYourPasswordTitle = "Email đặt lại mật khẩu đã được gửi.";
+  static const String changeYourPasswordSubTitle = "Bảo mật tài khoản của bạn là ưu tiên hàng đầu của chúng tôi! Chúng tôi đã gửi cho bạn một liên kết bảo mật để thay đổi mật khẩu và giữ an toàn cho tài khoản của bạn.";
+  static const String confirmEmail = "Hãy xác minh email của bạn!";
+  static const String confirmEmailSubTitle = "KGrill đang chờ bạn! Xác nhận email của bạn để mở khóa trải nghiệm ẩm thực tuyệt vời và khám phá vô vàn ưu đãi hấp dẫn cùng những món ăn được chọn lựa riêng cho bạn.";
+  static const String emailNotReceivedMessage = "Chưa nhận được email? Hãy kiểm tra thư mục thư rác hoặc thư rác của bạn hoặc gửi lại.";
+  static const String yourAccountCreatedTitle = "Tài khoản rạo thành công!";
+  static const String yourAccountCreatedSubTitle = "Chào mừng đến với thế giới ẩm thực của bạn: Tài khoản của bạn đã được tạo, hãy bắt đầu tận hưởng niềm vui đặt đồ ăn trực tuyến ngay thôi!";
 
   static const String homeAppBarTitle = "Good Morning, let's shopping";
   static const String homeAppBarSubTitle = "おはよう ございます";

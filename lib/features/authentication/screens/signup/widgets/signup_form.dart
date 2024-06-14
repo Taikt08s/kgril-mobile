@@ -43,15 +43,6 @@ class TSignUpForm extends StatelessWidget {
           ),
           const SizedBox(height: TSizes.spaceBtwInputFields),
 
-          ///Username
-          TextFormField(
-            expands: false,
-            decoration: const InputDecoration(
-                labelText: TTexts.username,
-                prefixIcon: Icon(Iconsax.security_user)),
-          ),
-          const SizedBox(height: TSizes.spaceBtwInputFields),
-
           ///Email
           TextFormField(
             expands: false,
@@ -65,6 +56,15 @@ class TSignUpForm extends StatelessWidget {
             expands: false,
             decoration: const InputDecoration(
                 labelText: TTexts.phoneNo, prefixIcon: Icon(Iconsax.call)),
+          ),
+          const SizedBox(height: TSizes.spaceBtwInputFields),
+
+          ///Address
+          TextFormField(
+            expands: false,
+            decoration: const InputDecoration(
+                labelText: TTexts.address,
+                prefixIcon: Icon(Iconsax.map)),
           ),
           const SizedBox(height: TSizes.spaceBtwInputFields),
 

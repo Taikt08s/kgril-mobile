@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:kgrill_mobile/features/shop/screens/home/widgets/home_appbar.dart';
+import 'package:kgrill_mobile/features/shop/screens/home/widgets/home_categories.dart';
+import 'package:kgrill_mobile/features/shop/screens/home/widgets/promo_silder.dart';
+import 'package:kgrill_mobile/utils/constants/image_strings.dart';
 
 import '../../../../common/widgets/custom_shapes/containers/primary_header_container.dart';
 import '../../../../common/widgets/custom_shapes/containers/search_container.dart';
-import '../../../../common/widgets/texts/section_heading.dart';
-
-import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/sizes.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -26,63 +26,28 @@ class HomeScreen extends StatelessWidget {
 
                   ///Searchbar
                   TSearchContainer(
-                    text: 'Search in Store',
+                    text: 'Search in KGrill',
                   ),
+                  SizedBox(height: TSizes.spaceBtwSections),
 
                   ///Categories
-                  Padding(
-                    padding: EdgeInsets.only(left: TSizes.defaultSpace),
-                    child: Column(
-                      children: [
-                        Column(
-                          children: [
-                            TSectionHeading(
-                              title: 'Popular Categories',
-                              showActionButton: false,
-                            ),
-                            SizedBox(height: TSizes.spaceBtwSections),
-
-                            ///Categories
-                            SizedBox(
-                              height: 80,
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: 6,
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (_, index) {
-                                  return Column(
-                                    children: [
-                                      Container(
-                                        width: 56,
-                                        height: 56,
-                                        padding:
-                                            const EdgeInsets.all(TSizes.sm),
-                                        decoration: BoxDecoration(
-                                          color: TColors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(100),
-                                        ),
-                                        child: Center(
-                                          child: Image(
-                                            image: AssetImage(''),
-                                            fit: BoxFit.cover,
-                                            color: TColors.dark,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  );
-                                },
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  )
+                  THomeCategories()
                 ],
               ),
             ),
+
+            ///Body
+            Padding(
+              padding: EdgeInsets.all(TSizes.defaultSpace),
+              child: TPromoSlider(
+                banners: [
+                  TImages.bannerImages1,
+                  TImages.bannerImages2,
+                  TImages.bannerImages3,
+                  TImages.bannerImages4,
+                ],
+              ),
+            )
           ],
         ),
       ),

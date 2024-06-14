@@ -44,7 +44,7 @@ class SignupScreen extends StatelessWidget {
               const SizedBox(height: TSizes.spaceBtwSections),
 
               ///Divider
-              TFormDivider(dividerText: TTexts.orSignUpWith.capitalize!),
+              const TFormDivider(dividerText: TTexts.orSignUpWith),
               const SizedBox(height: TSizes.spaceBtwSections),
 
               ///Social Buttons
