@@ -37,4 +37,10 @@ class TImages {
   static const String bannerImages2 = "assets/images/banners/welcome-back-combo-carousel.png";
   static const String bannerImages3 = "assets/images/banners/zalo-carousel.png";
   static const String bannerImages4 = "assets/images/banners/tenor.gif";
+
+  //--Product Images
+  static const String productImages1 = "assets/products/combo-nuong-gogi-suon-hoang-de-va-than-noi-bo-my.png";
+  static const String productImages2 = "assets/products/combo-nuong-lau-gogi-combo-gogi-smart.png";
+  static const String productImages3 = "assets/products/than-bung-suon-combo-1.png";
+
 }
