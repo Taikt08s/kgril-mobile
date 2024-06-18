@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:kgrill_mobile/features/personalization/screens/settings/settings.dart';
 import 'package:kgrill_mobile/utils/constants/colors.dart';
 import 'package:kgrill_mobile/utils/helpers/helper_functions.dart';
-
 
 import 'features/shop/screens/home/home.dart';
 
@@ -31,7 +31,8 @@ class NavigationMenu extends StatelessWidget {
           ),
           destinations: const [
             NavigationDestination(icon: Icon(Iconsax.home), label: 'Home'),
-            NavigationDestination(icon: Icon(Iconsax.receipt), label: 'History'),
+            NavigationDestination(
+                icon: Icon(Iconsax.receipt), label: 'History'),
             NavigationDestination(icon: Icon(Iconsax.heart), label: 'Wishlist'),
             NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile'),
           ],
@@ -53,8 +54,6 @@ class NavigationController extends GetxController {
     Container(
       color: Colors.orange,
     ),
-    Container(
-      color: Colors.blue,
-    ),
+    const SettingsScreen(),
   ];
 }
