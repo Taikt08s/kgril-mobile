@@ -43,4 +43,7 @@ class TImages {
   static const String productImages2 = "assets/products/combo-nuong-lau-gogi-combo-gogi-smart.png";
   static const String productImages3 = "assets/products/than-bung-suon-combo-1.png";
 
+  //--Loading Images
+  static const String screenLoading = "assets/images/loading/Hand-Loading.json";
+
 }
