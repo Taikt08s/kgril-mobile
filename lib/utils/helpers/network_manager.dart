@@ -34,7 +34,7 @@ class NetworkManager extends GetxController {
       _connectionStatus.value =
           result.last;
       if (_connectionStatus.value == ConnectivityResult.none) {
-        TLoaders.warningSnackBar(message: 'Không có kết nối mạng', title: null);
+        TLoaders.warningSnackBar(title: 'Không có kết nối mạng',message: 'Có vẻ như bạn chưa kết nối với mạng?');
       }
     }
   }
