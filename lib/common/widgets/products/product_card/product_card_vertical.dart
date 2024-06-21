@@ -19,8 +19,22 @@ class TProductCardVertical extends StatelessWidget {
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
 
+    double getContainerHeight(BuildContext context) {
+      final screenHeight = MediaQuery.of(context).size.height;
+
+      if (screenHeight >= 867) {
+        return 173.6;
+      } else if (screenHeight >= 835) {
+        return 167.6;
+      } else if (screenHeight >= 732) {
+        return 173.6;
+      } else {
+        return 157.6;
+      }
+    }
+
     return GestureDetector(
-      onDoubleTap: (){},
+      onDoubleTap: () {},
       child: Container(
         width: 180,
         padding: const EdgeInsets.all(1),
@@ -35,7 +49,7 @@ class TProductCardVertical extends StatelessWidget {
           children: [
             ///Thumbnail, Discount, Tag
             TRoundedContainer(
-              height: 180,
+              height: getContainerHeight(context),
               padding: const EdgeInsets.all(TSizes.sm),
               backgroundColor: dark ? TColors.dark : TColors.light,
               child: Stack(
@@ -121,8 +135,8 @@ class TProductCardVertical extends StatelessWidget {
                                   Radius.circular(TSizes.productImageRadius),
                             )),
                         child: const SizedBox(
-                          width: TSizes.iconLg,
-                          height: TSizes.iconLg,
+                          width: TSizes.iconLg * 1.2,
+                          height: TSizes.iconLg * 1.2,
                           child: Icon(
                             Iconsax.add,
                             color: TColors.white,
@@ -140,4 +154,3 @@ class TProductCardVertical extends StatelessWidget {
     );
   }
 }
-
