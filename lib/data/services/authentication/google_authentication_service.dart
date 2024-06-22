@@ -14,7 +14,6 @@ import '../../../utils/popups/loaders.dart';
 Future<void> handleGoogleSignIn(BuildContext context) async {
   final GoogleSignIn googleSignIn = GoogleSignIn(
     scopes: ['email'],
-    serverClientId: '686869728770-qf6bo1houvu6j1h4ucl3s09mmpk01e7r.apps.googleusercontent.com',
   );
 
   try {
