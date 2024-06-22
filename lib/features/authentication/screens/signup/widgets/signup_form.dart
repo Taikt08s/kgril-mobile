@@ -67,6 +67,7 @@ class TSignUpForm extends StatelessWidget {
             controller: controller.phone,
             validator: (value) => TValidator.validatePhoneNumber(value),
             expands: false,
+            keyboardType: TextInputType.number,
             decoration: const InputDecoration(
                 labelText: TTexts.phoneNo, prefixIcon: Icon(Iconsax.call)),
           ),

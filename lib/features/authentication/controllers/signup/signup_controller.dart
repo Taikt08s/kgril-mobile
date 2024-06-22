@@ -26,7 +26,7 @@ class SignupController extends GetxController {
     try {
       //start loading
       TFullScreenLoader.openLoadingDialog(
-          'Đang xử lí chờ xíu...', TImages.screenLoading);
+          'Đang xử lí chờ xíu...', TImages.screenLoadingSparkle2);
 
       //check internet connectivity
       final isConnected = await NetworkManager.instance.isConnected();
