@@ -19,14 +19,14 @@ class TFullScreenLoader {
         canPop: false,
         child: Container(
           color: THelperFunctions.isDarkMode(Get.context!)
-              ? TColors.dark
+              ? Colors.black
               : TColors.white,
           width: double.infinity,
           height: double.infinity,
           child: Column(
             children: [
-              const SizedBox(height: 240),
-              TAnimationLoaderWidget(text: text, animation: animation)
+              const SizedBox(height: 250),
+              TAnimationLoaderWidget(text: text, animation: animation),
             ],
           ),
         ),

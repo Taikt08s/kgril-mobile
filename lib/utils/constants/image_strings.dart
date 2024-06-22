@@ -45,5 +45,10 @@ class TImages {
 
   //--Loading Images
   static const String screenLoading = "assets/images/loading/Hand-Loading.json";
+  static const String screenLoading2 = "assets/images/loading/food-vlogger.json";
+  static const String screenLoadingSparkle1 = "assets/images/loading/sparkle-peek-a-boo.gif";
+  static const String screenLoadingSparkle2 = "assets/images/loading/sparkle-hehe.gif";
+  static const String screenLoadingSparkle3 = "assets/images/loading/sparkle-with-mask.gif";
+  static const String screenLoadingSparkle4 = "assets/images/loading/sparkle-with-lighter.gif";
 
 }

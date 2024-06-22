@@ -18,47 +18,62 @@ Future<void> handleGoogleSignIn(BuildContext context) async {
 
   try {
     TFullScreenLoader.openLoadingDialog(
-        'Đang xử lí chờ xíu...', TImages.screenLoading);
+        'Đang xử lí chờ xíu...', TImages.screenLoadingSparkle1);
 
+    //check internet connectivity
     final isConnected = await NetworkManager.instance.isConnected();
-    if (!isConnected) return;
+    if (!isConnected) {
+      TFullScreenLoader.stopLoading();
+      return;
+    }
 
     final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-    if (googleUser != null) {
-      final names = googleUser.displayName?.split(' ') ?? [''];
-      final firstName = names.first;
-      final lastName = names.length > 1 ? names.sublist(1).join(' ') : '';
+    if (googleUser == null) {
+      TFullScreenLoader.stopLoading();
+      return;
+    }
+    final names = googleUser.displayName?.split(' ') ?? [''];
+    final firstName = names.first;
+    final lastName = names.length > 1 ? names.sublist(1).join(' ') : '';
 
-      final userInfo = {
-        'first_name': firstName,
-        'last_name': lastName,
-        'email': googleUser.email,
-        'id': googleUser.id,
-        'photo_url': googleUser.photoUrl,
-      };
+    final userInfo = {
+      'first_name': firstName,
+      'last_name': lastName,
+      'email': googleUser.email,
+      'id': googleUser.id,
+      'photo_url': googleUser.photoUrl,
+    };
 
-      // Send user information to the backend
-      final response = await http.post(
-        Uri.parse('${TConnectionStrings.deployment}auth/google-signin'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode(userInfo),
-      );
+    // Send user information to the backend
+    final response = await http
+        .post(
+          Uri.parse('${TConnectionStrings.deployment}auth/google-signin'),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode(userInfo),
+        )
+        .timeout(const Duration(seconds: 10));
 
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        Get.off(() => const NavigationMenu());
-        if (kDebugMode) {
-          print('Login successful: $data');
-        }
-      } else {
-        if (kDebugMode) {
-          print('Login failed: ${response.body}');
-        }
+    TFullScreenLoader.stopLoading();
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      Get.off(() => const NavigationMenu());
+      if (kDebugMode) {
+        print('Login successful: $data');
+      }
+    } else {
+      TLoaders.errorSnackBar(
+          title: 'Xảy ra lỗi rồi!',
+          message: 'Đã xảy ra sự cố không xác định, vui lòng thử lại sau');
+      if (kDebugMode) {
+        print('Login failed: ${response.body}');
       }
     }
   } catch (e) {
     TFullScreenLoader.stopLoading();
-    TLoaders.errorSnackBar(title: 'Xảy ra lỗi rồi!', message: e.toString());
+    TLoaders.errorSnackBar(
+        title: 'Xảy ra lỗi rồi!',
+        message: 'Vui lòng kiểm tra lại kết nối mạng + $e');
     if (kDebugMode) {
       print(e);
     }

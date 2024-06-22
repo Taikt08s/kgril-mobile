@@ -1,15 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import '../../../features/authentication/screens/signup/verify_email.dart';
 import '../../../utils/constants/connection_strings.dart';
-import '../../../utils/popups/loaders.dart';
 
 class AuthenticationService {
   var client = http.Client();
 
-  Future<void> handleSignUp({
+  Future<Map<String, dynamic>> handleSignUp({
     required String email,
     required String firstName,
     required String lastName,
@@ -26,27 +23,36 @@ class AuthenticationService {
       "last_name": lastName.trim()
     };
 
-    var response = await client
-        .post(
-          Uri.parse('${TConnectionStrings.deployment}auth/register'),
-          headers: {'Content-Type': 'application/json'},
-          body: jsonEncode(userRegisterInformation),
-        )
-        .timeout(const Duration(seconds: 10));
+    try {
+      var response = await client
+          .post(Uri.parse('${TConnectionStrings.deployment}auth/register'),
+              headers: {'Content-Type': 'application/json'},
+              body: jsonEncode(userRegisterInformation))
+          .timeout(const Duration(seconds: 10));
 
-    if (response.statusCode == 202) {
-      final data = jsonDecode(response.body);
-      if (kDebugMode) {
-        print('Successful Register: $data');
+      if (response.statusCode == 202) {
+        final data = jsonDecode(response.body);
+        if (kDebugMode) {
+          print('Successful Register: $data');
+        }
+        return {"success": true, "data": data};
+      } else if (response.statusCode == 409) {
+        if (kDebugMode) {
+          print('Register failed: ${response.body}');
+        }
+        return {
+          "success": false,
+          "message":
+              'Tài khoản này đã được đăng kí với email này vui lòng kiểm tra lại'
+        };
+      } else {
+        return {
+          "success": false,
+          "message": 'Đã xảy ra sự cố không xác định, vui lòng thử lại sau'
+        };
       }
-      TLoaders.successSnackBar(
-          title: 'Thành công!', message: 'Đăng ký thành công.');
-      Get.to(() => const VerifyEmailScreen());
-      return;
-    } else {
-      if (kDebugMode) {
-        print('Login failed: ${response.body}');
-      }
+    } catch (e) {
+      return {"success": false, "message": 'Đã xảy ra sự cố: $e'};
     }
   }
 

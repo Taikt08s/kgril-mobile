@@ -8,7 +8,6 @@ import '../../../../../utils/constants/text_strings.dart';
 import '../../password_configuration/forget_password.dart';
 import '../../signup/signup.dart';
 
-
 class TLoginForm extends StatelessWidget {
   const TLoginForm({
     super.key,
@@ -74,7 +73,11 @@ class TLoginForm extends StatelessWidget {
                 width: double.infinity,
                 height: 50,
                 child: OutlinedButton(
-                    onPressed: () => Get.to(() => const SignupScreen()),
+                    onPressed: () => Get.to(
+                          () => const SignupScreen(),
+                          transition: Transition.cupertinoDialog,
+                          duration: const Duration(milliseconds: 400),
+                        ),
                     child: const Text(TTexts.createAccount))),
           ],
         ),
