@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:kgrill_mobile/features/authentication/controllers/signup/verify_email_controller.dart';
 
-
-import '../../../../common/widgets/success_screen/success_screen.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/constants/text_strings.dart';
@@ -11,10 +11,14 @@ import '../../../../utils/helpers/helper_functions.dart';
 import '../login/login.dart';
 
 class VerifyEmailScreen extends StatelessWidget {
-  const VerifyEmailScreen({super.key});
+  const VerifyEmailScreen({super.key, this.email});
+
+  final String? email;
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(VerifyEmailController());
+
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -33,7 +37,7 @@ class VerifyEmailScreen extends StatelessWidget {
                 image: const AssetImage(TImages.emailSendImage),
                 width: THelperFunctions.screenWidth() * 0.6,
               ),
-              const SizedBox(height: TSizes.spaceBtwSections),
+              const SizedBox(height: TSizes.spaceBtwItems),
 
               ///Title & Subtitle
               Text(
@@ -43,11 +47,11 @@ class VerifyEmailScreen extends StatelessWidget {
               ),
               const SizedBox(height: TSizes.spaceBtwSections),
               Text(
-                'support@nekotee.com',
+                email ?? '',
                 style: Theme.of(context).textTheme.labelLarge,
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: TSizes.spaceBtwSections),
+              const SizedBox(height: TSizes.spaceBtwItems),
               Text(
                 TTexts.confirmEmailSubTitle,
                 style: Theme.of(context).textTheme.labelMedium,
@@ -55,17 +59,56 @@ class VerifyEmailScreen extends StatelessWidget {
               ),
               const SizedBox(height: TSizes.spaceBtwSections),
 
+              ///OTP Verification Input
+              Form(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: List.generate(6, (index) {
+                    return SizedBox(
+                      height: 60,
+                      width: 52,
+                      child: TextFormField(
+                        onChanged: (value) {
+                          if (value.length == 1) {
+                            controller.otp[index] = value;
+                            if (index < 5) {
+                              FocusScope.of(context).nextFocus();
+                            } else {
+                              FocusScope.of(context).unfocus();
+                            }
+                          }
+                        },
+                        style: Theme.of(context).textTheme.headlineMedium,
+                        keyboardType: TextInputType.number,
+                        textAlign: TextAlign.center,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(1),
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                      ),
+                    );
+                  }),
+                ),
+              ),
+              const SizedBox(height: TSizes.spaceBtwSections),
+
               ///Button
+              // SizedBox(
+              //     width: double.infinity,
+              //     height: 50,
+              //     child: ElevatedButton(
+              //         onPressed: () => Get.to(() => SuccessScreen(
+              //               image: TImages.emailAccountSuccess,
+              //               title: TTexts.yourAccountCreatedTitle,
+              //               subTitle: TTexts.yourAccountCreatedSubTitle,
+              //               onPressed: () => Get.to(() => const LoginScreen()),
+              //             )),
+              //         child: const Text(TTexts.tContinue))),
               SizedBox(
                   width: double.infinity,
                   height: 50,
                   child: ElevatedButton(
-                      onPressed: () => Get.to(() => SuccessScreen(
-                            image: TImages.emailAccountSuccess,
-                            title: TTexts.yourAccountCreatedTitle,
-                            subTitle: TTexts.yourAccountCreatedSubTitle,
-                            onPressed: () => Get.to(() => const LoginScreen()),
-                          )),
+                      onPressed: controller.verifyEmail,
                       child: const Text(TTexts.tContinue))),
               const SizedBox(height: TSizes.spaceBtwItems),
               SizedBox(

@@ -63,16 +63,20 @@ class SignupController extends GetxController {
 
       if (result['success']) {
         TLoaders.successSnackBar(
-            title: 'Đăng ký thành công!',
-            message: 'Vui lòng check email để xác thực tài khoản');
-        Get.to(() => const VerifyEmailScreen());
+            title: 'Đã gửi email với mã otp!',
+            message: 'Vui lòng check email để lấy mã otp');
+        Get.to(() => VerifyEmailScreen(
+              email: email.text.trim(),
+            ));
       } else {
         TLoaders.warningSnackBar(
             title: 'Ối đã xảy ra sự cố', message: result['message']);
       }
     } catch (e) {
       TFullScreenLoader.stopLoading();
-      TLoaders.errorSnackBar(title: 'Xảy ra lỗi rồi!', message: e.toString());
+      TLoaders.errorSnackBar(
+          title: 'Xảy ra lỗi rồi!',
+          message: 'Đã xảy ra sự cố không xác định, vui lòng thử lại sau');
     }
   }
 }
