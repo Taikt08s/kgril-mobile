@@ -27,6 +27,7 @@ static const String homeAppbarTitle10 = "Express Yourself, Stitch by Stitch";
   static const String address = "Địa chỉ";
   static const String phoneNo = "Số điện thoại";
   static const String rememberMe = "Duy trì đăng nhập";
+  static const String inputOtp = "Nhập mã otp";
   static const String forgetPassword = "Quên mật khẩu?";
   static const String signIn = "Đăng nhập";
   static const String createAccount = "Tạo tài khoản";
