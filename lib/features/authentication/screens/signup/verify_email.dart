@@ -35,7 +35,7 @@ class VerifyEmailScreen extends StatelessWidget {
               ///Image
               Image(
                 image: const AssetImage(TImages.emailSendImage),
-                width: THelperFunctions.screenWidth() * 0.6,
+                width: THelperFunctions.screenWidth() * 0.7,
               ),
               const SizedBox(height: TSizes.spaceBtwItems),
 
@@ -45,7 +45,7 @@ class VerifyEmailScreen extends StatelessWidget {
                 style: Theme.of(context).textTheme.headlineMedium,
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: TSizes.spaceBtwSections),
+              const SizedBox(height: TSizes.spaceBtwItems),
               Text(
                 email ?? '',
                 style: Theme.of(context).textTheme.labelLarge,
@@ -92,18 +92,6 @@ class VerifyEmailScreen extends StatelessWidget {
               ),
               const SizedBox(height: TSizes.spaceBtwSections),
 
-              ///Button
-              // SizedBox(
-              //     width: double.infinity,
-              //     height: 50,
-              //     child: ElevatedButton(
-              //         onPressed: () => Get.to(() => SuccessScreen(
-              //               image: TImages.emailAccountSuccess,
-              //               title: TTexts.yourAccountCreatedTitle,
-              //               subTitle: TTexts.yourAccountCreatedSubTitle,
-              //               onPressed: () => Get.to(() => const LoginScreen()),
-              //             )),
-              //         child: const Text(TTexts.tContinue))),
               SizedBox(
                   width: double.infinity,
                   height: 50,
@@ -111,11 +99,6 @@ class VerifyEmailScreen extends StatelessWidget {
                       onPressed: controller.verifyEmail,
                       child: const Text(TTexts.tContinue))),
               const SizedBox(height: TSizes.spaceBtwItems),
-              SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: TextButton(
-                      onPressed: () {}, child: const Text(TTexts.resendEmail))),
             ],
           ),
         ),

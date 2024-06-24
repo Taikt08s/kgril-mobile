@@ -7,6 +7,7 @@ import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/constants/text_strings.dart';
 import '../../password_configuration/forget_password.dart';
 import '../../signup/signup.dart';
+import '../../signup/verify_email.dart';
 
 class TLoginForm extends StatelessWidget {
   const TLoginForm({
@@ -43,13 +44,10 @@ class TLoginForm extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ///remember me
-                Row(
-                  children: [
-                    Checkbox(value: true, onChanged: (value) {}),
-                    const Text(TTexts.rememberMe),
-                  ],
-                ),
+                ///otp input
+                TextButton(
+                    onPressed: () => Get.to(() => const VerifyEmailScreen()),
+                    child: const Text(TTexts.inputOtp)),
 
                 ///forgot password
                 TextButton(
@@ -57,7 +55,7 @@ class TLoginForm extends StatelessWidget {
                     child: const Text(TTexts.forgetPassword)),
               ],
             ),
-            const SizedBox(height: TSizes.spaceBtwSections),
+            const SizedBox(height: TSizes.spaceBtwItems),
 
             ///Sign in button
             SizedBox(
