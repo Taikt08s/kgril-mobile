@@ -20,7 +20,7 @@ class THomeCategories extends StatelessWidget {
           Column(
             children: [
               const TSectionHeading(
-                title: 'Popular Categories',
+                title: 'Đề xuất cho bạn',
                 showActionButton: false,
                 textColor: TColors.white,
               ),

@@ -33,6 +33,20 @@ class TProductCardVertical extends StatelessWidget {
       }
     }
 
+    double getContainerHeightForDiscount(BuildContext context) {
+      final screenHeight = MediaQuery.of(context).size.height;
+
+      if (screenHeight >= 867) {
+        return 6;
+      } else if (screenHeight >= 835) {
+        return 6;
+      } else if (screenHeight >= 732) {
+        return 24;
+      } else {
+        return 34;
+      }
+    }
+
     return GestureDetector(
       onDoubleTap: () {},
       child: Container(
@@ -63,7 +77,7 @@ class TProductCardVertical extends StatelessWidget {
 
                   /// Product Tag
                   Positioned(
-                    bottom: 6,
+                    bottom: getContainerHeightForDiscount(context),
                     left: 4,
                     child: TRoundedContainer(
                       radius: TSizes.sm,

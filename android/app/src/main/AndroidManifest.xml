@@ -1,10 +1,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools" package="com.example.kgrill_mobile">
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
     <application
             android:label="KGrill"
             android:name="${applicationName}"
             android:icon="@mipmap/ic_launcher"
             android:enableOnBackInvokedCallback="true">
+        <meta-data
+                android:name="com.google.android.geo.API_KEY"
+                android:value="AIzaSyD1GHETsndK4CV4piHL-tpRAP7snO4Et7Y"/>
         <activity
                 android:name=".MainActivity"
                 android:exported="true"

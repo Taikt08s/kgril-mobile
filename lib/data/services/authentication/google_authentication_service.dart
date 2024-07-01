@@ -10,8 +10,11 @@ import '../../../utils/constants/image_strings.dart';
 import '../../../utils/helpers/network_manager.dart';
 import '../../../utils/popups/full_screen_loader.dart';
 import '../../../utils/popups/loaders.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 Future<void> handleGoogleSignIn(BuildContext context) async {
+  final secureStorage = const FlutterSecureStorage();
+
   final GoogleSignIn googleSignIn = GoogleSignIn(
     scopes: ['email'],
   );
@@ -57,6 +60,14 @@ Future<void> handleGoogleSignIn(BuildContext context) async {
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
+      final accessToken = data['data']?['access_token'];
+      final refreshToken = data['data']?['refresh_token'];
+      await secureStorage.write(key: 'access_token', value: accessToken);
+      await secureStorage.write(key: 'refresh_token', value: refreshToken);
+
+      TLoaders.successSnackBar(
+          title: 'Chào mừng quay trở lại!',
+          message: 'Rất nhiều ưu đãi đang chờ đón bạn');
       Get.off(() => const NavigationMenu());
       if (kDebugMode) {
         print('Login successful: $data');

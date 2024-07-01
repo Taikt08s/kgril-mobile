@@ -70,7 +70,7 @@ class VerifyEmailController extends GetxController {
             );
           } else {
             TLoaders.warningSnackBar(
-              title: 'Error',
+              title: 'Xảy ra lỗi rồi!',
               message: 'Đã xảy ra sự cố không xác định, vui lòng thử lại sau',
             );
             if (kDebugMode) {

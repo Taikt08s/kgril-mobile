@@ -29,7 +29,7 @@ class HomeScreen extends StatelessWidget {
 
                   ///Searchbar
                   TSearchContainer(
-                    text: 'Search in KGrill',
+                    text: 'Tìm trong KGrill',
                   ),
                   SizedBox(height: TSizes.spaceBtwItems),
 

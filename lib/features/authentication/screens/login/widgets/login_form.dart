@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:kgrill_mobile/features/authentication/controllers/login/login_controller.dart';
+import 'package:kgrill_mobile/utils/validators/validation.dart';
 
-import '../../../../../navigation_dart.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/constants/text_strings.dart';
 import '../../password_configuration/forget_password.dart';
@@ -16,13 +17,17 @@ class TLoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(LoginController());
     return Form(
+      key: controller.loginFormKey,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: TSizes.spaceBtwSections),
         child: Column(
           children: [
             ///email
             TextFormField(
+              controller: controller.email,
+              validator: (value) => TValidator.validateEmail(value),
               decoration: const InputDecoration(
                   prefixIcon: Icon(Iconsax.user_square),
                   labelText: TTexts.email),
@@ -31,11 +36,23 @@ class TLoginForm extends StatelessWidget {
             const SizedBox(height: TSizes.spaceBtwInputFields),
 
             ///password
-            TextFormField(
-              decoration: const InputDecoration(
-                  prefixIcon: Icon(Iconsax.password_check),
+            Obx(
+              () => TextFormField(
+                controller: controller.password,
+                validator: (value) => TValidator.validateEmptyText('Mật khẩu',value),
+                expands: false,
+                obscureText: controller.hidePassword.value,
+                decoration: InputDecoration(
                   labelText: TTexts.password,
-                  suffixIcon: Icon(Iconsax.eye_slash)),
+                  prefixIcon: const Icon(Iconsax.password_check),
+                  suffixIcon: IconButton(
+                      onPressed: () => controller.hidePassword.value =
+                          !controller.hidePassword.value,
+                      icon: Icon(controller.hidePassword.value
+                          ? Iconsax.eye_slash
+                          : Iconsax.eye)),
+                ),
+              ),
             ),
 
             const SizedBox(height: TSizes.spaceBtwInputFields / 2),
@@ -62,7 +79,7 @@ class TLoginForm extends StatelessWidget {
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                    onPressed: () => Get.to(() => const NavigationMenu()),
+                    onPressed: () => controller.emailAndPasswordSignIn(),
                     child: const Text(TTexts.signIn))),
             const SizedBox(height: TSizes.spaceBtwItems),
 
@@ -71,7 +88,7 @@ class TLoginForm extends StatelessWidget {
                 width: double.infinity,
                 height: 50,
                 child: OutlinedButton(
-                    onPressed: () => Get.to(
+                    onPressed: () => Get.offAll(
                           () => const SignupScreen(),
                           transition: Transition.cupertinoDialog,
                           duration: const Duration(milliseconds: 400),

@@ -23,6 +23,15 @@ dependencies:
   flutter_native_splash: ^2.4.0
   smooth_page_indicator: ^1.1.0
   carousel_slider: ^4.2.1
+  flutter_secure_storage: ^9.2.2
+  jwt_decoder: ^2.0.1
+  jose: ^0.3.4
+  flutter_dotenv: ^5.1.0
+  google_maps_flutter: ^2.7.0
+  geolocator: ^12.0.0
+  geocoding: ^3.0.0
+  permission_handler: ^11.3.1
+  image_picker: ^1.1.2
 
   # Icons Packages
   iconsax: ^0.0.8
@@ -67,6 +76,8 @@ flutter:
     - assets/images/banners/
     - assets/products/
     - assets/images/loading/
+    - assets/images/icons/
+    - lib/.env
 
   # Local fonts:
   fonts:

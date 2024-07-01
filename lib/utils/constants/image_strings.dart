@@ -51,4 +51,7 @@ class TImages {
   static const String screenLoadingSparkle3 = "assets/images/loading/sparkle-mask.gif";
   static const String screenLoadingSparkle4 = "assets/images/loading/sparkle-with-lighter.gif";
 
+//--Icon Images
+  static const String grillIcon = "assets/images/icons/grill.gif";
+  static const String hotPotIcon = "assets/images/icons/hot-pot.gif";
 }
