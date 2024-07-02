@@ -144,7 +144,7 @@ class LocationPickerState extends State<LocationPicker> {
             },
           ),
           Positioned(
-            bottom: 10,
+            bottom: 12,
             left: 10,
             right: 60,
             child: Card(
@@ -162,7 +162,7 @@ class LocationPickerState extends State<LocationPicker> {
                     ),
                     const SizedBox(height: 10),
                     SizedBox(
-                      height: 50,
+                      height: 40,
                       width: 100,
                       child: ElevatedButton(
                         onPressed: () {

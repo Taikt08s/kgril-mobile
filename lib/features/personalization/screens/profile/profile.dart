@@ -83,7 +83,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                     TProfileMenu(
                         onPressed: () {},
                         title: 'Tên tài khoản',
-                        value: 'Taikt08s'),
+                        value: '${userProfile!['data']['last_name']}'),
                     TProfileMenu(
                         onPressed: () {},
                         title: 'Tên đầy đủ',
@@ -116,7 +116,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                     TProfileMenu(
                         onPressed: () {},
                         title: 'Ngày sinh',
-                        value: '${userProfile!['data']['email']}'),
+                        value: '${userProfile!['data']['dob']}'),
                     const Divider(),
                     const SizedBox(height: TSizes.spaceBtwSections),
                     Center(
