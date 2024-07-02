@@ -11,17 +11,17 @@ import 'package:kgrill_mobile/utils/constants/sizes.dart';
 
 import '../../../../common/widgets/list_titles/t_user_profile_title.dart';
 import '../../../authentication/controllers/logout/logout_controller.dart';
-import '../address/address-picker.dart';
+import '../address/address_picker.dart';
 import '../profile/profile.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
   @override
-  _SettingsScreenState createState() => _SettingsScreenState();
+  SettingsScreenState createState() => SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class SettingsScreenState extends State<SettingsScreen> {
   final controller = Get.put(LogoutController());
   String? _selectedAddress;
 

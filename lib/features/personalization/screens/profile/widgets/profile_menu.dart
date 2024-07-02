@@ -8,13 +8,14 @@ class TProfileMenu extends StatelessWidget {
     super.key,
     required this.onPressed,
     required this.title,
-    required this.value,
+    this.value,
     this.icon = Iconsax.arrow_right_34,
   });
 
   final IconData icon;
   final VoidCallback onPressed;
-  final String title, value;
+  final String title;
+  final String? value;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,7 @@ class TProfileMenu extends StatelessWidget {
             ),
             Expanded(
               flex: 4,
-              child: Text(value,
+              child: Text(value ?? '',
                   style: Theme.of(context).textTheme.bodyMedium,
                   overflow: TextOverflow.ellipsis),
             ),

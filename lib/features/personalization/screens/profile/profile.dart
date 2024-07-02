@@ -13,12 +13,13 @@ class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  ProfileScreenState createState() => ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class ProfileScreenState extends State<ProfileScreen> {
   final UserProfileService _userService = UserProfileService();
   Map<String, dynamic>? userProfile;
+  ScaffoldMessengerState? _scaffoldMessengerState;
 
   @override
   void initState() {
@@ -33,7 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         userProfile = result['data'];
       });
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
+      _scaffoldMessengerState?.showSnackBar(
         SnackBar(content: Text(result['message'])),
       );
     }
@@ -58,11 +59,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       width: double.infinity,
                       child: Column(
                         children: [
-                           TCircularImage(
+                          TCircularImage(
                               image: userProfile!['data']['profile_picture'] ??
                                   TImages.hotPotIcon,
                               width: 100,
-                              height: 100),
+                              height: 100,
+                              isNetworkImage: true),
                           TextButton(
                               onPressed: () {},
                               child: const Text('Thay ảnh đại diện'))
@@ -85,7 +87,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     TProfileMenu(
                         onPressed: () {},
                         title: 'Tên đầy đủ',
-                        value: '${userProfile!['first_name']} ${userProfile!['last_name']}'),
+                        value:
+                            '${userProfile!['data']['first_name']} ${userProfile!['data']['last_name']}'),
 
                     const Divider(),
                     const SizedBox(height: TSizes.spaceBtwItems),
@@ -95,23 +98,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     TProfileMenu(
                       onPressed: () {},
                       title: 'Email',
-                      value: 'styematic@gmail.com',
+                      value: '${userProfile?['data']['email']}',
                       icon: Iconsax.copy,
                     ),
                     TProfileMenu(
                         onPressed: () {},
                         title: 'Số điện thoại',
-                        value: '0977544372'),
+                        value: '${userProfile!['data']['phone']}'),
                     TProfileMenu(
                         onPressed: () {},
                         title: 'Địa chỉ',
-                        value: 'Nguyễn Xiển, Quận 9, TP HCM'),
+                        value: '${userProfile!['data']['address']}'),
                     TProfileMenu(
-                        onPressed: () {}, title: 'Giới tính', value: 'Nam'),
+                        onPressed: () {},
+                        title: 'Giới tính',
+                        value: '${userProfile!['data']['gender']}'),
                     TProfileMenu(
                         onPressed: () {},
                         title: 'Ngày sinh',
-                        value: '26-10-2003'),
+                        value: '${userProfile!['data']['email']}'),
                     const Divider(),
                     const SizedBox(height: TSizes.spaceBtwSections),
                     Center(

@@ -13,7 +13,7 @@ import '../../../utils/popups/loaders.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 Future<void> handleGoogleSignIn(BuildContext context) async {
-  final secureStorage = const FlutterSecureStorage();
+  const secureStorage = FlutterSecureStorage();
 
   final GoogleSignIn googleSignIn = GoogleSignIn(
     scopes: ['email'],

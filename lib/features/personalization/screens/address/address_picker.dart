@@ -16,7 +16,7 @@ class LocationPickerState extends State<LocationPicker> {
   late GoogleMapController mapController;
   LatLng? _currentPosition;
   String _currentAddress = '';
-  double radius = 110.0; // Radius in meters
+  double radius = 100.0; // Radius in meters
 
   ScaffoldMessengerState? _scaffoldMessengerState;
 
