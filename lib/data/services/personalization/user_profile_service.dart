@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import '../../../utils/constants/connection_strings.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -43,10 +44,71 @@ class UserProfileService {
         };
       }
     } catch (e) {
-      if (kDebugMode) {
-        print('Error retrieving user information: $e');
+      return {
+        "userInformation": false,
+        "message": 'Error retrieving user information: $e'
+      };
+    }
+  }
+
+  Future<Map<String, Object>> updateUserProfilePicture(XFile image) async {
+    String? accessToken = await getAccessToken();
+    if (accessToken == null) {
+      return {"success": false, "message": "No access token found"};
+    }
+
+    var userProfile = await getUserProfile();
+    if (userProfile["success"] != true) {
+      return {"success": false, "message": "Failed to get user profile"};
+    }
+
+    String userId = userProfile["data"]["data"]["user_id"];
+
+    try {
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse('${TConnectionStrings.deployment}account/image?id=$userId'),
+      );
+      request.headers['Authorization'] = 'Bearer $accessToken';
+
+      var file = await http.MultipartFile.fromPath('profile_pic', image.path);
+      request.files.add(file);
+
+      var response = await request.send().timeout(const Duration(seconds: 10));
+      final responseData = await http.Response.fromStream(response);
+      if (response.statusCode == 200) {
+        if (kDebugMode) {
+          print('Successfully updated profile picture');
+        }
+        return {
+          "success": true,
+          "message": "Profile picture updated successfully"
+        };
+      } else {
+        if (response.statusCode == 500) {
+          return {
+            "success": false,
+            "message":
+                'Maximum upload size exceeded. Please try with a smaller image.'
+          };
+        } else {
+          if (kDebugMode) {
+            print('Failed to update profile picture: ${responseData.body}');
+          }
+          return {
+            "success": false,
+            "message": 'Failed to update profile picture',
+          };
+        }
       }
-      return {"success": false, "message": 'Error retrieving user information: $e'};
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error updating profile picture: $e');
+      }
+      return {
+        "success": false,
+        "message": 'Error updating profile picture: $e'
+      };
     }
   }
 }

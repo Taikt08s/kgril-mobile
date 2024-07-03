@@ -49,7 +49,7 @@ class TImages {
   static const String screenLoadingSparkle1 = "assets/images/loading/sparkle-peek-a-boo.gif";
   static const String screenLoadingSparkle2 = "assets/images/loading/sparkle-hehe.gif";
   static const String screenLoadingSparkle3 = "assets/images/loading/sparkle-mask.gif";
-  static const String screenLoadingSparkle4 = "assets/images/loading/sparkle-with-lighter.gif";
+  static const String screenLoadingSparkle4 = "assets/images/loading/sparkle-lighter.gif";
 
 //--Icon Images
   static const String grillIcon = "assets/images/icons/grill.gif";

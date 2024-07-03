@@ -32,6 +32,8 @@ dependencies:
   geocoding: ^3.0.0
   permission_handler: ^11.3.1
   image_picker: ^1.1.2
+  cached_network_image: ^3.3.1
+  shimmer: ^3.0.0
 
   # Icons Packages
   iconsax: ^0.0.8

@@ -10,10 +10,12 @@ class TProfileMenu extends StatelessWidget {
     required this.title,
     this.value,
     this.icon = Iconsax.arrow_right_34,
+    this.onIconPressed,
   });
 
   final IconData icon;
   final VoidCallback onPressed;
+  final VoidCallback? onIconPressed;
   final String title;
   final String? value;
 
@@ -34,12 +36,17 @@ class TProfileMenu extends StatelessWidget {
             ),
             Expanded(
               flex: 4,
-              child: Text(value ?? '',
-                  style: Theme.of(context).textTheme.bodyMedium,
+              child: Text(value?.isNotEmpty == true ? value! : 'Thiết lập ngay',
+                  style: value?.isNotEmpty == true
+                      ? Theme.of(context).textTheme.bodyMedium
+                      : Theme.of(context).textTheme.bodySmall,
                   overflow: TextOverflow.ellipsis),
             ),
             Expanded(
-              child: Icon(icon, size: 18),
+              child: GestureDetector(
+                onTap: onIconPressed,
+                child: Icon(icon, size: 18),
+              ),
             ),
           ],
         ),

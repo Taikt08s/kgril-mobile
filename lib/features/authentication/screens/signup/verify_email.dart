@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:kgrill_mobile/features/authentication/controllers/signup/verify_email_controller.dart';
 
+import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/constants/text_strings.dart';
@@ -18,14 +19,18 @@ class VerifyEmailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(VerifyEmailController());
-
+    final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: () => Get.offAll(() => const LoginScreen()),
-              icon: const Icon(CupertinoIcons.clear)),
-        ],
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: dark ? TColors.white : TColors.dark,
+          ),
+          onPressed: () {
+            Get.back();
+          },
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(

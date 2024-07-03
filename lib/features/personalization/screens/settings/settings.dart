@@ -179,7 +179,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                         TSettingsMenuTile(
                           icon: Iconsax.message_question,
                           title: 'Trung Tâm Trợ Giúp',
-                          subtitle: 'Cài đặt thông báo',
+                          subtitle: 'Hỗ trợ đến từ nhân viên tư vấn',
                           onTap: () {},
                         ),
 
@@ -188,7 +188,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                         SizedBox(
                           width: double.infinity,
                           child: OutlinedButton(
-                            onPressed: () => controller.logout(),
+                            onPressed: () => logoutAccountWarningPopup(),
                             child: const Text('Đăng xuất'),
                           ),
                         ),
@@ -199,6 +199,29 @@ class SettingsScreenState extends State<SettingsScreen> {
                 ],
               ),
             ),
+    );
+  }
+
+  void logoutAccountWarningPopup() {
+    Get.defaultDialog(
+      contentPadding: const EdgeInsets.all(TSizes.md),
+      title: 'Đăng xuất',
+      middleText: 'Điều này sẽ đưa bạn trở về trang đăng nhập',
+      confirm: ElevatedButton(
+        onPressed: () async => controller.logout(),
+        style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.red,
+            side: const BorderSide(color: Colors.red)),
+        child: const Padding(
+            padding: EdgeInsets.symmetric(
+                vertical:6.0, horizontal: TSizes.lg),
+            child: Text('Đồng ý')),
+      ),
+      // ElevatedButton
+      cancel: OutlinedButton(
+        child: const Text('Hủy bỏ'),
+        onPressed: () => Navigator.of(Get.overlayContext!).pop(),
+      ), // OutlinedButton
     );
   }
 }

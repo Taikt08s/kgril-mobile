@@ -39,7 +39,8 @@ class TLoginForm extends StatelessWidget {
             Obx(
               () => TextFormField(
                 controller: controller.password,
-                validator: (value) => TValidator.validateEmptyText('Mật khẩu',value),
+                validator: (value) =>
+                    TValidator.validateEmptyText('Mật khẩu', value),
                 expands: false,
                 obscureText: controller.hidePassword.value,
                 decoration: InputDecoration(
@@ -88,8 +89,7 @@ class TLoginForm extends StatelessWidget {
                 width: double.infinity,
                 height: 50,
                 child: OutlinedButton(
-                    onPressed: () => Get.offAll(
-                          () => const SignupScreen(),
+                    onPressed: () => Get.to(() => const SignupScreen(),
                           transition: Transition.cupertinoDialog,
                           duration: const Duration(milliseconds: 400),
                         ),

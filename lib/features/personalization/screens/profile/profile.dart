@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:kgrill_mobile/common/widgets/appbar/appbar.dart';
 import 'package:kgrill_mobile/common/widgets/images/t_circular_image.dart';
 import 'package:kgrill_mobile/common/widgets/texts/section_heading.dart';
+import 'package:kgrill_mobile/features/personalization/screens/profile/widgets/change_address.dart';
+import 'package:kgrill_mobile/features/personalization/screens/profile/widgets/change_name.dart';
+import 'package:kgrill_mobile/features/personalization/screens/profile/widgets/change_phone.dart';
 import 'package:kgrill_mobile/features/personalization/screens/profile/widgets/profile_menu.dart';
 import 'package:kgrill_mobile/utils/constants/image_strings.dart';
 
 import '../../../../data/services/personalization/user_profile_service.dart';
 import '../../../../utils/constants/sizes.dart';
+import 'package:get/get.dart';
+
+import '../../controller/user_profile_controller.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -24,6 +31,8 @@ class ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
+    final controller = Get.put(UserProfileController());
+    controller.profileScreenState = this;
     _loadUserProfile();
   }
 
@@ -40,8 +49,13 @@ class ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  Future<void> loadUserProfile() async {
+    await _loadUserProfile();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(UserProfileController());
     return Scaffold(
       appBar: const TAppBar(
         title: Text('Tài Khoản & Bảo Mật'),
@@ -59,14 +73,21 @@ class ProfileScreenState extends State<ProfileScreen> {
                       width: double.infinity,
                       child: Column(
                         children: [
-                          TCircularImage(
-                              image: userProfile!['data']['profile_picture'] ??
-                                  TImages.hotPotIcon,
-                              width: 100,
-                              height: 100,
-                              isNetworkImage: true),
+                          Obx(() {
+                            final networkImage = userProfile!['data']['profile_picture'] ??
+                                TImages.hotPotIcon;
+                            return controller.imageUploading.value
+                                ? const CircularProgressIndicator()
+                                : TCircularImage(
+                                image: networkImage,
+                                width: 100,
+                                height: 100,
+                                padding: 0,
+                                isNetworkImage: true);
+                          }),
                           TextButton(
-                              onPressed: () {},
+                              onPressed: () =>
+                                  controller.handleImageProfileUpload(),
                               child: const Text('Thay ảnh đại diện'))
                         ],
                       ),
@@ -81,11 +102,11 @@ class ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(height: TSizes.spaceBtwItems),
 
                     TProfileMenu(
-                        onPressed: () {},
+                        onPressed: () => Get.to(() => const ChangeUserName()),
                         title: 'Tên tài khoản',
                         value: '${userProfile!['data']['last_name']}'),
                     TProfileMenu(
-                        onPressed: () {},
+                        onPressed: () => Get.to(() => const ChangeUserName()),
                         title: 'Tên đầy đủ',
                         value:
                             '${userProfile!['data']['first_name']} ${userProfile!['data']['last_name']}'),
@@ -100,13 +121,19 @@ class ProfileScreenState extends State<ProfileScreen> {
                       title: 'Email',
                       value: '${userProfile?['data']['email']}',
                       icon: Iconsax.copy,
+                      onIconPressed: () {
+                        Clipboard.setData(
+                          ClipboardData(text: userProfile?['data']['email']),
+                        );
+                      },
                     ),
                     TProfileMenu(
-                        onPressed: () {},
+                        onPressed: () =>
+                            Get.to(() => const ChangePhoneNumber()),
                         title: 'Số điện thoại',
                         value: '${userProfile!['data']['phone']}'),
                     TProfileMenu(
-                        onPressed: () {},
+                        onPressed: () => Get.to(() => const ChangeAddress()),
                         title: 'Địa chỉ',
                         value: '${userProfile!['data']['address']}'),
                     TProfileMenu(
