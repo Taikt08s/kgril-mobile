@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:kgrill_mobile/common/widgets/images/t_rounded_image.dart';
 import 'package:kgrill_mobile/utils/constants/colors.dart';
@@ -6,6 +7,7 @@ import 'package:kgrill_mobile/utils/constants/image_strings.dart';
 import 'package:kgrill_mobile/utils/constants/sizes.dart';
 import 'package:kgrill_mobile/utils/helpers/helper_functions.dart';
 
+import '../../../../features/shop/screens/product_detail/product_detail.dart';
 import '../../../styles/shadows.dart';
 import '../../custom_shapes/containers/rounded_container.dart';
 import '../../icons/t_circular_icon.dart';
@@ -48,7 +50,7 @@ class TProductCardVertical extends StatelessWidget {
     }
 
     return GestureDetector(
-      onDoubleTap: () {},
+      onDoubleTap: () =>Get.to(()=>const ProductDetailScreen()),
       child: Container(
         width: 180,
         padding: const EdgeInsets.all(1),
@@ -65,7 +67,7 @@ class TProductCardVertical extends StatelessWidget {
             TRoundedContainer(
               height: getContainerHeight(context),
               padding: const EdgeInsets.all(TSizes.sm),
-              backgroundColor: dark ? TColors.dark : TColors.light,
+              backgroundColor: dark ? TColors.dark : TColors.grey,
               child: Stack(
                 children: [
                   ///Thumbnail Image

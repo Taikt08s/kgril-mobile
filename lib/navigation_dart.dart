@@ -17,12 +17,12 @@ class NavigationMenu extends StatelessWidget {
     final dark = THelperFunctions.isDarkMode(context);
     return Scaffold(
       bottomNavigationBar: Obx(
-        () => NavigationBar(
+            () => NavigationBar(
           height: 80,
           elevation: 0,
           selectedIndex: controller.selectedIndex.value,
           onDestinationSelected: (index) =>
-              controller.selectedIndex.value = index,
+          controller.selectedIndex.value = index,
           backgroundColor: dark ? TColors.black : TColors.white,
           indicatorColor: dark
               ? TColors.white.withOpacity(0.1)

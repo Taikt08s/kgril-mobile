@@ -1,14 +1,54 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import '../../../features/authentication/screens/login/login.dart';
 import '../../../utils/constants/connection_strings.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:jose/jose.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+import 'http_interceptor.dart';
 
 class AuthenticationService {
-  var client = http.Client();
-
+  var client = HttpInterceptor();
+  final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
   final String? secretKey = dotenv.env['SECRET_KEY'];
+
+  Future<void> saveTokenExpiration(DateTime expirationTime) async {
+    final box = GetStorage();
+    box.write('token_expiration', expirationTime.toIso8601String());
+  }
+
+  DateTime? getTokenExpiration() {
+    final box = GetStorage();
+    String? expirationString = box.read('token_expiration');
+    if (expirationString != null) {
+      return DateTime.parse(expirationString);
+    }
+    return null;
+  }
+
+  Future<void> monitorTokenExpiration() async {
+    while (true) {
+      await Future.delayed(const Duration(minutes: 1));
+      DateTime? expirationTime = getTokenExpiration();
+      if (expirationTime != null && DateTime.now().isAfter(expirationTime.subtract(const Duration(minutes: 1)))) {
+        // Try to refresh token one minute before expiration
+        var refreshToken = await secureStorage.read(key: 'refresh_token');
+        var newTokens = await client.refreshTokens(refreshToken);
+        if (newTokens == null) {
+          // Logout if refresh fails
+          await client.logoutUser();
+          Get.off(() => const LoginScreen());
+        } else {
+          // Update expiration time
+          var newExpirationTime = DateTime.now().add(const Duration(minutes: 30));
+          await saveTokenExpiration(newExpirationTime);
+        }
+      }
+    }
+  }
 
   Future<Map<String, dynamic>> handleSignUp({
     required String email,
@@ -94,6 +134,9 @@ class AuthenticationService {
         if (kDebugMode) {
           print('Successful Login: $responseData');
         }
+        var expirationTime = DateTime.now().add(const Duration(minutes: 30));
+        await saveTokenExpiration(expirationTime);
+        monitorTokenExpiration();
         return {"success": true, "data": responseData};
       } else if (response.statusCode == 401) {
         if (responseData['message'] == 'Email or Password is incorrect') {

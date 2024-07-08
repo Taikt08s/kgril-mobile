@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:kgrill_mobile/common/widgets/products/product_card/product_card_vertical.dart';
+import 'package:kgrill_mobile/common/widgets/texts/section_heading.dart';
 import 'package:kgrill_mobile/features/shop/screens/home/widgets/home_appbar.dart';
 import 'package:kgrill_mobile/features/shop/screens/home/widgets/home_categories.dart';
 import 'package:kgrill_mobile/features/shop/screens/home/widgets/promo_silder.dart';
 import 'package:kgrill_mobile/utils/constants/image_strings.dart';
 
+import '../../../../common/widgets/all_products/all_products.dart';
 import '../../../../common/widgets/custom_shapes/containers/primary_header_container.dart';
 import '../../../../common/widgets/custom_shapes/containers/search_container.dart';
 import '../../../../common/widgets/layouts/grid_layout.dart';
@@ -51,6 +54,10 @@ class HomeScreen extends StatelessWidget {
                     TImages.bannerImages3,
                     TImages.bannerImages4,
                   ]),
+                  const SizedBox(height: TSizes.spaceBtwItems),
+
+                  ///Heading
+                  TSectionHeading(title: 'Đề xuất cho bạn',onPressed: ()=>Get.to(()=> const AllProducts())),
                   const SizedBox(height: TSizes.spaceBtwItems),
 
                   ///Popular Products

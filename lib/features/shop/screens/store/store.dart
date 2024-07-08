@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:kgrill_mobile/common/widgets/appbar/appbar.dart';
+import 'package:kgrill_mobile/common/widgets/appbar/tabbar.dart';
 import 'package:kgrill_mobile/common/widgets/custom_shapes/containers/rounded_container.dart';
 import 'package:kgrill_mobile/common/widgets/custom_shapes/containers/search_container.dart';
 import 'package:kgrill_mobile/common/widgets/layouts/grid_layout.dart';
-import 'package:kgrill_mobile/common/widgets/products/cart_menu_icon.dart';
+import 'package:kgrill_mobile/common/widgets/products/cart/cart_menu_icon.dart';
 import 'package:kgrill_mobile/common/widgets/texts/section_heading.dart';
+import 'package:kgrill_mobile/features/shop/screens/store/widgets/category_tab.dart';
 import 'package:kgrill_mobile/utils/constants/colors.dart';
 import 'package:kgrill_mobile/utils/constants/image_strings.dart';
 
@@ -20,101 +22,125 @@ class Store extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: TAppBar(
-        title: Text('Trang chủ',
-            style: Theme.of(context).textTheme.headlineMedium),
-        actions: [
-          TCartCounterIcon(
-            onPressed: () {},
-            iconColor: Colors.black,
-          ),
-        ],
-      ),
-      body: NestedScrollView(
-        headerSliverBuilder: (_, innerBoxIsScrolled) {
-          return [
-            SliverAppBar(
-              automaticallyImplyLeading: false,
-              pinned: true,
-              floating: true,
-              backgroundColor: THelperFunctions.isDarkMode(context)
-                  ? TColors.black
-                  : TColors.white,
-              expandedHeight: 300,
-              flexibleSpace: Padding(
-                padding: const EdgeInsets.all(TSizes.defaultSpace),
-                child: ListView(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    ///search bar
-                    const SizedBox(height: TSizes.spaceBtwItems),
-                    const TSearchContainer(
-                      text: 'Tìm trong Kgrill',
-                      showBorder: true,
-                      showBackground: false,
-                      padding: EdgeInsets.zero,
-                    ),
-                    const SizedBox(height: TSizes.spaceBtwItems),
+    return DefaultTabController(
+      length: 4,
+      child: Scaffold(
+        appBar: TAppBar(
+          title: Text('Trang chủ',
+              style: Theme.of(context).textTheme.headlineMedium),
+          actions: [
+            TCartCounterIcon(
+              onPressed: () {},
+              iconColor: Colors.black,
+            ),
+          ],
+        ),
+        body: NestedScrollView(
+          headerSliverBuilder: (_, innerBoxIsScrolled) {
+            return [
+              SliverAppBar(
+                automaticallyImplyLeading: false,
+                pinned: true,
+                floating: true,
+                backgroundColor: THelperFunctions.isDarkMode(context)
+                    ? TColors.black
+                    : TColors.white,
+                expandedHeight: 300,
+                flexibleSpace: Padding(
+                  padding: const EdgeInsets.all(TSizes.defaultSpace),
+                  child: ListView(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      ///search bar
+                      const SizedBox(height: TSizes.spaceBtwItems),
+                      const TSearchContainer(
+                        text: 'Tìm trong Kgrill',
+                        showBorder: true,
+                        showBackground: false,
+                        padding: EdgeInsets.zero,
+                      ),
+                      const SizedBox(height: TSizes.spaceBtwItems),
 
-                    ///Store categories
-                    TSectionHeading(title: 'Danh mục', onPressed: () {}),
-                    const SizedBox(height: TSizes.spaceBtwItems / 1.5),
+                      ///Store categories
+                      TSectionHeading(title: 'Danh mục', onPressed: () {}),
+                      const SizedBox(height: TSizes.spaceBtwItems / 1.5),
 
-                    ///Categories
-                    TGridLayout(itemCount: 2,mainAxisExtent: 80, itemBuilder: (_, index) {
-                        return GestureDetector(
-                          onTap: () {},
-                          child: TRoundedContainer(
-                            padding: const EdgeInsets.all(TSizes.xs/2),
-                            showBorder: true,
-                            backgroundColor: Colors.transparent,
-                            child: Row(
-                              children: [
-                                ///Icon
-                                const Flexible(
-                                  child: TCircularImage(
-                                    image: TImages.grillIcon,
-                                    isNetworkImage: false,
-                                    backgroundColor: Colors.transparent,
+                      ///Categories
+                      TGridLayout(
+                        itemCount: 2,
+                        mainAxisExtent: 80,
+                        itemBuilder: (_, index) {
+                          return GestureDetector(
+                            onTap: () {},
+                            child: TRoundedContainer(
+                              padding: const EdgeInsets.all(TSizes.xs / 2),
+                              showBorder: true,
+                              backgroundColor: Colors.transparent,
+                              child: Row(
+                                children: [
+                                  ///Icon
+                                  const Flexible(
+                                    child: TCircularImage(
+                                      image: TImages.grillIcon,
+                                      isNetworkImage: false,
+                                      backgroundColor: Colors.transparent,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(
-                                    height: TSizes.spaceBtwItems / 4),
+                                  const SizedBox(
+                                      height: TSizes.spaceBtwItems / 4),
 
-                                ///Text
-                                Flexible(
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      const TBrandTitleWithVerifiedIcon(
-                                          title: 'Nướng',
-                                          brandTextSize: TextSizes.large),
-                                      Text(
-                                        '10 combo',
-                                        overflow: TextOverflow.ellipsis,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelMedium,
-                                      )
-                                    ],
+                                  ///Text
+                                  Flexible(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const TBrandTitleWithVerifiedIcon(
+                                            title: 'Nướng',
+                                            brandTextSize: TextSizes.large),
+                                        Text(
+                                          '10 combo',
+                                          overflow: TextOverflow.ellipsis,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelMedium,
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                    )
+                          );
+                        },
+                      )
+                    ],
+                  ),
+                ),
+
+                ///Tab
+                bottom: const TTabBar(
+                  tabs: [
+                    Tab(child: Text('Combo Nướng')),
+                    Tab(child: Text('Combo Lẩu')),
+                    Tab(child: Text('Kèm tráng miệng')),
+                    Tab(child: Text('Kèm thức uống')),
                   ],
                 ),
               ),
-            )
-          ];
-        },
-        body: Container(),
+            ];
+          },
+          body: const TabBarView(
+            children: [
+              TCategoryTab(),
+              TCategoryTab(),
+              TCategoryTab(),
+              TCategoryTab(),
+            ],
+          ),
+        ),
       ),
     );
   }
