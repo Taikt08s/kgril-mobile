@@ -19,9 +19,25 @@ class UserProfileController extends GetxController {
   final gender = TextEditingController();
   final address = TextEditingController();
   final secureStorage = const FlutterSecureStorage();
+  var userProfile = {}.obs;
   final imageUploading = false.obs;
   GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
   ProfileScreenState? profileScreenState;
+
+  @override
+  void onInit() {
+    super.onInit();
+    loadUserProfile();
+  }
+
+  Future<void> loadUserProfile() async {
+    var result = await UserProfileService().getUserProfile();
+    if (result['success']) {
+      userProfile.value = result['data'];
+    } else {
+      Get.snackbar('Error', result['message']);
+    }
+  }
 
   // Future<void> emailAndPasswordSignIn() async {
   //   try {
@@ -81,7 +97,8 @@ class UserProfileController extends GetxController {
         if (result['success'] == true) {
           TLoaders.successSnackBar(
               title: 'Thành công', message: 'Cập nhật ảnh đại diện thành công');
-          profileScreenState?.loadUserProfile();
+          // profileScreenState?.loadUserProfile();
+          await loadUserProfile();
         } else {
           TLoaders.errorSnackBar(
               title: 'Xảy ra lỗi rồi!', message: result['message']);

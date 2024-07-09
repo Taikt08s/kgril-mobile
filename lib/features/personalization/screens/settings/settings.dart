@@ -14,6 +14,7 @@ import '../../../../common/widgets/list_titles/t_user_profile_title.dart';
 import '../../../../data/services/personalization/user_profile_service.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../authentication/controllers/logout/logout_controller.dart';
+import '../../controller/user_profile_controller.dart';
 import '../address/address_picker.dart';
 import '../profile/profile.dart';
 
@@ -26,16 +27,16 @@ class SettingsScreen extends StatefulWidget {
 
 class SettingsScreenState extends State<SettingsScreen> {
   final controller = Get.put(LogoutController());
+  final userProfileController = Get.put(UserProfileController());
   String? _selectedAddress;
   bool _locationSharingEnabled = false;
-  Map<String, dynamic>? userProfile;
+  // Map<String, dynamic>? userProfile;
   ScaffoldMessengerState? _scaffoldMessengerState;
 
   @override
   void initState() {
     super.initState();
     _checkLocationPermission();
-    _loadUserProfile();
   }
 
   Future<void> _checkLocationPermission() async {
@@ -52,23 +53,12 @@ class SettingsScreenState extends State<SettingsScreen> {
     });
   }
 
-  Future<void> _loadUserProfile() async {
-    var result = await UserProfileService().getUserProfile();
-    if (result['success']) {
-      setState(() {
-        userProfile = result['data'];
-      });
-    } else {
-      _scaffoldMessengerState?.showSnackBar(
-        SnackBar(content: Text(result['message'])),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: userProfile == null
+      body: Obx(() {
+      final userProfile = userProfileController.userProfile.value;
+      return userProfile.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
               child: Column(
@@ -156,7 +146,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                         TSettingsMenuTile(
                           icon: Iconsax.message_question,
                           title: 'Chia sẻ vị trí',
-                          subtitle: 'Cài đặt vị trí hiện tại',
+                          subtitle: 'Chia sẻ vị trí của bạn hiện tại',
                           trailing: Switch(
                             value: _locationSharingEnabled,
                             onChanged: (value) async {
@@ -195,10 +185,11 @@ class SettingsScreenState extends State<SettingsScreen> {
                         const SizedBox(height: TSizes.spaceBtwSections),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
-            ),
+      );
+      }),
     );
   }
 

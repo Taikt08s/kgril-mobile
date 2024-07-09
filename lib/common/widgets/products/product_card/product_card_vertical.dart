@@ -139,6 +139,7 @@ class TProductCardVertical extends StatelessWidget {
                     ],
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       ///Price
                       const TProductPriceText(price: '627,000'),
