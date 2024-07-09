@@ -53,6 +53,7 @@ class ProfileScreenState extends State<ProfileScreen> {
     await _loadUserProfile();
   }
 
+
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(UserProfileController());
@@ -76,7 +77,9 @@ class ProfileScreenState extends State<ProfileScreen> {
                   child: Column(
                     children: [
                       Obx(() {
-                        final networkImage = userProfile['data']['profile_picture'] ?? TImages.hotPotIcon;
+                        final networkImage =
+                            userProfile['data']['profile_picture'] ??
+                                TImages.hotPotIcon;
                         return controller.imageUploading.value
                             ? const CircularProgressIndicator()
                             : TCircularImage(
@@ -88,7 +91,8 @@ class ProfileScreenState extends State<ProfileScreen> {
                         );
                       }),
                       TextButton(
-                        onPressed: () => controller.handleImageProfileUpload(),
+                        onPressed: () =>
+                            controller.handleImageProfileUpload(),
                         child: const Text('Thay ảnh đại diện'),
                       ),
                     ],
@@ -113,7 +117,8 @@ class ProfileScreenState extends State<ProfileScreen> {
                 TProfileMenu(
                   onPressed: () => Get.to(() => const ChangeUserName()),
                   title: 'Tên đầy đủ',
-                  value: '${userProfile['data']['first_name']} ${userProfile['data']['last_name']}',
+                  value:
+                  '${userProfile['data']['first_name']} ${userProfile['data']['last_name']}',
                 ),
                 const Divider(),
                 const SizedBox(height: TSizes.spaceBtwItems),
@@ -129,7 +134,8 @@ class ProfileScreenState extends State<ProfileScreen> {
                   icon: Iconsax.copy,
                   onIconPressed: () {
                     Clipboard.setData(
-                      ClipboardData(text: userProfile['data']['email']),
+                      ClipboardData(
+                          text: userProfile['data']['email']),
                     );
                   },
                 ),

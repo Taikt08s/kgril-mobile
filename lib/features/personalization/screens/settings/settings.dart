@@ -11,7 +11,6 @@ import 'package:kgrill_mobile/utils/constants/sizes.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../common/widgets/list_titles/t_user_profile_title.dart';
-import '../../../../data/services/personalization/user_profile_service.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../authentication/controllers/logout/logout_controller.dart';
 import '../../controller/user_profile_controller.dart';
@@ -30,8 +29,6 @@ class SettingsScreenState extends State<SettingsScreen> {
   final userProfileController = Get.put(UserProfileController());
   String? _selectedAddress;
   bool _locationSharingEnabled = false;
-  // Map<String, dynamic>? userProfile;
-  ScaffoldMessengerState? _scaffoldMessengerState;
 
   @override
   void initState() {
@@ -77,11 +74,11 @@ class SettingsScreenState extends State<SettingsScreen> {
                         ///User Profile Card
                         TUserProfileTitle(
                           onPressed: () => Get.to(() => const ProfileScreen()),
-                          fullName: userProfile!['data']['first_name'] +
+                          fullName: userProfile['data']['first_name'] +
                               " " +
-                              userProfile!['data']['last_name'],
-                          email: userProfile?['data']['email'],
-                          profilePicture: userProfile!['data']
+                              userProfile['data']['last_name'],
+                          email: userProfile['data']['email'],
+                          profilePicture: userProfile['data']
                                   ['profile_picture'] ??
                               TImages.hotPotIcon,
                         ),
