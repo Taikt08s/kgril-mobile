@@ -53,7 +53,6 @@ class ProfileScreenState extends State<ProfileScreen> {
     await _loadUserProfile();
   }
 
-
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(UserProfileController());
@@ -62,119 +61,105 @@ class ProfileScreenState extends State<ProfileScreen> {
         title: Text('Tài Khoản & Bảo Mật'),
         showBackArrow: true,
       ),
-      body: Obx(() {
-        final userProfile = controller.userProfile.value;
-        return userProfile.isEmpty
-            ? const Center(child: CircularProgressIndicator())
-            : SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(TSizes.spaceBtwItems),
-            child: Column(
-              children: [
-                ///Profile Picture
-                SizedBox(
-                  width: double.infinity,
-                  child: Column(
-                    children: [
-                      Obx(() {
-                        final networkImage =
-                            userProfile['data']['profile_picture'] ??
-                                TImages.hotPotIcon;
-                        return controller.imageUploading.value
-                            ? const CircularProgressIndicator()
-                            : TCircularImage(
-                          image: networkImage,
-                          width: 100,
-                          height: 100,
-                          padding: 0,
-                          isNetworkImage: true,
-                        );
-                      }),
-                      TextButton(
+      body: userProfile == null
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(TSizes.spaceBtwItems),
+          child: Column(
+            children: [
+              ///Profile Picture
+              SizedBox(
+                width: double.infinity,
+                child: Column(
+                  children: [
+                    Obx(() {
+                      final profilePicture = userProfile?['data']['profile_picture'];
+                      final networkImage = (profilePicture == null || profilePicture == "null")
+                          ? TImages.grillIcon
+                          : profilePicture;
+                      return controller.imageUploading.value
+                          ? const CircularProgressIndicator()
+                          : TCircularImage(
+                        image: networkImage,
+                        width: 100,
+                        height: 100,
+                        padding: 0,
+                        isNetworkImage: !(profilePicture == null || profilePicture == "null"),
+                      );
+                    }),
+                    TextButton(
                         onPressed: () =>
                             controller.handleImageProfileUpload(),
-                        child: const Text('Thay ảnh đại diện'),
-                      ),
-                    ],
-                  ),
+                        child: const Text('Thay ảnh đại diện'))
+                  ],
                 ),
+              ),
 
-                ///Details
-                const SizedBox(height: TSizes.spaceBtwItems / 2),
-                const Divider(),
-                const SizedBox(height: TSizes.spaceBtwItems),
-                const TSectionHeading(
-                  title: 'Hồ sơ của tôi',
-                  showActionButton: false,
-                ),
-                const SizedBox(height: TSizes.spaceBtwItems),
+              ///Details
+              const SizedBox(height: TSizes.spaceBtwItems / 2),
+              const Divider(),
+              const SizedBox(height: TSizes.spaceBtwItems),
+              const TSectionHeading(
+                  title: 'Hồ sơ của tôi', showActionButton: false),
+              const SizedBox(height: TSizes.spaceBtwItems),
 
-                TProfileMenu(
+              TProfileMenu(
                   onPressed: () => Get.to(() => const ChangeUserName()),
                   title: 'Tên tài khoản',
-                  value: '${userProfile['data']['last_name']}',
-                ),
-                TProfileMenu(
+                  value: '${userProfile!['data']['last_name']}'),
+              TProfileMenu(
                   onPressed: () => Get.to(() => const ChangeUserName()),
                   title: 'Tên đầy đủ',
                   value:
-                  '${userProfile['data']['first_name']} ${userProfile['data']['last_name']}',
-                ),
-                const Divider(),
-                const SizedBox(height: TSizes.spaceBtwItems),
-                const TSectionHeading(
-                  title: 'Thông tin cá nhân',
-                  showActionButton: false,
-                ),
-                const SizedBox(height: TSizes.spaceBtwItems),
-                TProfileMenu(
-                  onPressed: () {},
-                  title: 'Email',
-                  value: '${userProfile['data']['email']}',
-                  icon: Iconsax.copy,
-                  onIconPressed: () {
-                    Clipboard.setData(
-                      ClipboardData(
-                          text: userProfile['data']['email']),
-                    );
-                  },
-                ),
-                TProfileMenu(
-                  onPressed: () => Get.to(() => const ChangePhoneNumber()),
+                  '${userProfile!['data']['first_name']} ${userProfile!['data']['last_name']}'),
+
+              const Divider(),
+              const SizedBox(height: TSizes.spaceBtwItems),
+              const TSectionHeading(
+                  title: 'Thông tin cá nhân', showActionButton: false),
+              const SizedBox(height: TSizes.spaceBtwItems),
+              TProfileMenu(
+                onPressed: () {},
+                title: 'Email',
+                value: '${userProfile?['data']['email']}',
+                icon: Iconsax.copy,
+                onIconPressed: () {
+                  Clipboard.setData(
+                    ClipboardData(text: userProfile?['data']['email']),
+                  );
+                },
+              ),
+              TProfileMenu(
+                  onPressed: () =>
+                      Get.to(() => const ChangePhoneNumber()),
                   title: 'Số điện thoại',
-                  value: '${userProfile['data']['phone']}',
-                ),
-                TProfileMenu(
+                  value: '${userProfile!['data']['phone']}'),
+              TProfileMenu(
                   onPressed: () => Get.to(() => const ChangeAddress()),
                   title: 'Địa chỉ',
-                  value: '${userProfile['data']['address']}',
-                ),
-                TProfileMenu(
+                  value: '${userProfile!['data']['address']}'),
+              TProfileMenu(
                   onPressed: () {},
                   title: 'Giới tính',
-                  value: '${userProfile['data']['gender']}',
-                ),
-                TProfileMenu(
+                  value: '${userProfile!['data']['gender']}'),
+              TProfileMenu(
                   onPressed: () {},
                   title: 'Ngày sinh',
-                  value: '${userProfile['data']['dob']}',
+                  value: '${userProfile!['data']['dob']}'),
+              const Divider(),
+              const SizedBox(height: TSizes.spaceBtwSections),
+              Center(
+                child: TextButton(
+                  onPressed: () {},
+                  child: const Text('Vô hiệu hóa tài khoản',
+                      style: TextStyle(color: Colors.red)),
                 ),
-                const Divider(),
-                const SizedBox(height: TSizes.spaceBtwSections),
-                Center(
-                  child: TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Vô hiệu hóa tài khoản',
-                      style: TextStyle(color: Colors.red),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              )
+            ],
           ),
-        );
-      }),
+        ),
+      ),
     );
   }
 }

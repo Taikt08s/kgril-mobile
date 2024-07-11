@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:kgrill_mobile/common/widgets/images/t_rounded_image.dart';
+import 'package:kgrill_mobile/features/shop/models/product_model.dart';
 import 'package:kgrill_mobile/utils/constants/colors.dart';
-import 'package:kgrill_mobile/utils/constants/image_strings.dart';
 import 'package:kgrill_mobile/utils/constants/sizes.dart';
 import 'package:kgrill_mobile/utils/helpers/helper_functions.dart';
 
@@ -15,7 +15,9 @@ import '../../texts/product_price_text.dart';
 import '../../texts/product_title_text.dart';
 
 class TProductCardVertical extends StatelessWidget {
-  const TProductCardVertical({super.key});
+  const TProductCardVertical({super.key, required this.product});
+
+  final ProductModel product;
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +27,13 @@ class TProductCardVertical extends StatelessWidget {
       final screenHeight = MediaQuery.of(context).size.height;
 
       if (screenHeight >= 867) {
-        return 173.6;
+        return 175.0;
       } else if (screenHeight >= 835) {
-        return 167.6;
+        return 166.0;
       } else if (screenHeight >= 732) {
-        return 173.6;
+        return 163.0;
       } else {
-        return 157.6;
+        return 155.0;
       }
     }
 
@@ -50,7 +52,7 @@ class TProductCardVertical extends StatelessWidget {
     }
 
     return GestureDetector(
-      onDoubleTap: () =>Get.to(()=>const ProductDetailScreen()),
+      onTap: () => Get.to(() => ProductDetailScreen( productId: product.packageId,)),
       child: Container(
         width: 180,
         padding: const EdgeInsets.all(1),
@@ -71,10 +73,11 @@ class TProductCardVertical extends StatelessWidget {
               child: Stack(
                 children: [
                   ///Thumbnail Image
-                  const TRoundedImage(
-                    imageUrl: TImages.productImages1,
+                  TRoundedImage(
+                    imageUrl: product.packageThumbnailUrl,
                     applyImageRadius: true,
                     borderRadius: 10,
+                    isNetworkImage: true,
                   ),
 
                   /// Product Tag
@@ -113,56 +116,61 @@ class TProductCardVertical extends StatelessWidget {
             const SizedBox(height: TSizes.spaceBtwItems / 2),
 
             ///Details
-            Padding(
-              padding: const EdgeInsets.only(left: TSizes.sm),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const TProductTitleText(
-                    title: 'Combo Nướng GoGi Sườn Hoàng đế & Thăn nội bò Mỹ',
-                    smallSize: true,
-                  ),
-                  const SizedBox(height: TSizes.spaceBtwItems / 2),
-                  Row(
-                    children: [
-                      Text(
-                        'KGrill',
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        style: Theme.of(context).textTheme.labelMedium,
-                      ),
-                      const SizedBox(
-                        width: TSizes.xs,
-                      ),
-                      const Icon(Iconsax.verify5,
-                          color: TColors.primary, size: TSizes.iconXs),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ///Price
-                      const TProductPriceText(price: '627,000'),
-                      Container(
-                        decoration: const BoxDecoration(
-                            color: TColors.dark,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(TSizes.cardRadiusMd),
-                              bottomRight:
-                                  Radius.circular(TSizes.productImageRadius),
-                            )),
-                        child: const SizedBox(
-                          width: TSizes.iconLg * 1.2,
-                          height: TSizes.iconLg * 1.2,
-                          child: Icon(
-                            Iconsax.add,
-                            color: TColors.white,
-                          ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: TSizes.sm),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TProductTitleText(
+                      title: product.packageName,
+                      smallSize: true,
+                    ),
+                    const SizedBox(height: TSizes.spaceBtwItems / 2),
+                    Row(
+                      children: [
+                        Text(
+                          'KGrill',
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: Theme.of(context).textTheme.labelMedium,
                         ),
-                      )
-                    ],
-                  )
-                ],
+                        const SizedBox(
+                          width: TSizes.xs,
+                        ),
+                        const Icon(Iconsax.verify5,
+                            color: TColors.primary, size: TSizes.iconXs),
+                      ],
+                    ),
+                    const Spacer(),
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ///Price
+                          TProductPriceText(price: product.packagePrice),
+                          Container(
+                            decoration: const BoxDecoration(
+                                color: TColors.dark,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(TSizes.cardRadiusMd),
+                                  bottomRight: Radius.circular(TSizes.productImageRadius),
+                                )),
+                            child: const SizedBox(
+                              width: TSizes.iconLg * 1.2,
+                              height: TSizes.iconLg * 1.2,
+                              child: Icon(
+                                Iconsax.add,
+                                color: TColors.white,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

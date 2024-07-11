@@ -54,4 +54,11 @@ class TImages {
 //--Icon Images
   static const String grillIcon = "assets/images/icons/grill.gif";
   static const String hotPotIcon = "assets/images/icons/hot-pot.gif";
+
+//--Profiles Images
+  static const String userImage1 = "assets/images/profiles/profile_image_1.png";
+  static const String userImage2 = "assets/images/profiles/profile_image_2.png";
+  static const String userImage3 = "assets/images/profiles/profile_image_3.png";
+  static const String userImage4 = "assets/images/profiles/profile_image_4.png";
+
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kgrill_mobile/common/widgets/products/product_card/product_card_vertical.dart';
+import 'package:kgrill_mobile/common/widgets/shimmers/vertical_product_shimmer.dart';
 import 'package:kgrill_mobile/common/widgets/texts/section_heading.dart';
+import 'package:kgrill_mobile/features/shop/controllers/product/product_controller.dart';
 import 'package:kgrill_mobile/features/shop/screens/home/widgets/home_appbar.dart';
 import 'package:kgrill_mobile/features/shop/screens/home/widgets/home_categories.dart';
 import 'package:kgrill_mobile/features/shop/screens/home/widgets/promo_silder.dart';
@@ -18,6 +20,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(ProductController());
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -57,14 +60,29 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: TSizes.spaceBtwItems),
 
                   ///Heading
-                  TSectionHeading(title: 'Đề xuất cho bạn',onPressed: ()=>Get.to(()=> const AllProducts())),
+                  TSectionHeading(
+                      title: 'Đề xuất cho bạn',
+                      onPressed: () => Get.to(() => const AllProducts())),
                   const SizedBox(height: TSizes.spaceBtwItems),
 
                   ///Popular Products
-                  TGridLayout(
-                    itemCount: 4,
-                    itemBuilder: (_, index) => const TProductCardVertical(),
-                  )
+
+                  Obx(() {
+                    if (controller.isLoading.value) {
+                      return const TVerticalProductShimmer();
+                    }
+                    if (controller.featureProducts.isEmpty) {
+                      return Center(
+                          child: Text(
+                        'Không tìm thấy dữ liệu',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ));
+                    }
+                    return TGridLayout(
+                        itemCount: controller.featureProducts.length,
+                        itemBuilder: (_, index) => TProductCardVertical(
+                            product: controller.featureProducts[index]));
+                  })
                 ],
               ),
             ),

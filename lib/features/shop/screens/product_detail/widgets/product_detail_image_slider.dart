@@ -9,11 +9,15 @@ import '../../../../../common/widgets/images/t_rounded_image.dart';
 import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/helpers/helper_functions.dart';
+import '../../../models/product_detail_model.dart';
+import '../../../models/product_model.dart';
 
 class TProductImageSlider extends StatelessWidget {
   const TProductImageSlider({
-    super.key,
+    super.key, required this.product,
   });
+
+  final ProductDetailModel product;
 
   @override
   Widget build(BuildContext context) {

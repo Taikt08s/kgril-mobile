@@ -10,11 +10,13 @@ import '../../../../../common/widgets/texts/product_price_text.dart';
 import '../../../../../common/widgets/texts/product_title_text.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/helpers/helper_functions.dart';
+import '../../../models/product_detail_model.dart';
 
 class TProductMetaData extends StatelessWidget {
   const TProductMetaData({
-    super.key,
+    super.key, required this.product,
   });
+  final ProductDetailModel product;
 
   @override
   Widget build(BuildContext context) {
@@ -46,22 +48,22 @@ class TProductMetaData extends StatelessWidget {
                     .titleSmall!
                     .apply(decoration: TextDecoration.lineThrough)),
             const SizedBox(width: TSizes.spaceBtwItems),
-            const TProductPriceText(price: '₫599,000', isLarge: true),
+             TProductPriceText(price: product.packagePrice, isLarge: true),
           ],
         ),
         const SizedBox(height: TSizes.spaceBtwItems / 1.5),
 
         /// Title
-        const TProductTitleText(
-            title: 'Combo Nướng GoGi Sườn Hoàng đế & Thăn nội bò Mỹ'),
+         TProductTitleText(
+            title: product.packageName),
         const SizedBox(height: TSizes.spaceBtwItems / 1.5),
 
         /// Number of people
-        const Row(
+         Row(
           children: [
-            TProductTitleText(title: 'Combo dành cho',smallSize: true),
-            SizedBox(width: TSizes.spaceBtwItems /2),
-            TProductTitleText(title: '1-2 người'),
+            const TProductTitleText(title: 'Combo dành cho',smallSize: true),
+            const SizedBox(width: TSizes.spaceBtwItems /2),
+            TProductTitleText(title: product.packageSize),
 
           ],
         ),

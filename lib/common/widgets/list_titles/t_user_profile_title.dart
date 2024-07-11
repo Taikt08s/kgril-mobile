@@ -11,12 +11,14 @@ class TUserProfileTitle extends StatelessWidget {
     required this.fullName,
     required this.email,
     required this.profilePicture,
+    required this.isNetworkImage,
   });
 
   final VoidCallback onPressed;
   final String fullName;
   final String email;
   final String profilePicture;
+  final bool isNetworkImage;
 
   @override
   Widget build(BuildContext context) {
@@ -26,14 +28,16 @@ class TUserProfileTitle extends StatelessWidget {
         width: 60,
         height: 60,
         padding: 0,
-        isNetworkImage: true,
+        isNetworkImage: isNetworkImage,
       ),
       title: Text(fullName,
+          overflow: TextOverflow.ellipsis,
           style: Theme.of(context)
               .textTheme
               .headlineSmall!
               .apply(color: TColors.white)),
       subtitle: Text(email,
+          overflow: TextOverflow.ellipsis,
           style: Theme.of(context)
               .textTheme
               .bodyMedium!

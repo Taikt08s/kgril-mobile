@@ -38,7 +38,7 @@ class CartScreen extends StatelessWidget {
                       TProductQuantityWithAddAndRemoveButton(),
                     ],
                   ),
-                  TProductPriceText(price: '599,000')
+                  // TProductPriceText(price: '599,000')
                 ],
               )
             ],

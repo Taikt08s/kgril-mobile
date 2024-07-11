@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:kgrill_mobile/common/widgets/custom_shapes/containers/rounded_container.dart';
 import 'package:kgrill_mobile/common/widgets/texts/section_heading.dart';
+import 'package:kgrill_mobile/features/shop/screens/product_reviews/product_reviews.dart';
 import 'package:kgrill_mobile/utils/constants/colors.dart';
 import 'package:kgrill_mobile/utils/constants/sizes.dart';
 import 'package:readmore/readmore.dart';
 
 import '../../../../../utils/helpers/helper_functions.dart';
+import '../../../models/product_detail_model.dart';
 
 class TProductAttributes extends StatelessWidget {
-  const TProductAttributes({super.key});
+  const TProductAttributes({super.key, required this.product});
+
+  final ProductDetailModel product;
 
   @override
   Widget build(BuildContext context) {
@@ -35,55 +40,38 @@ class TProductAttributes extends StatelessWidget {
                 children: [
                   const TSectionHeading(
                       title: 'Gồm có ', showActionButton: false),
-                  const SizedBox(height: TSizes.smallSpace),
 
                   ///Dish Component
-                  Row(
-                    children: [
-                      /// Dish Name
-                      const Text(
-                        '+ Xúc xích nấm (200g)',
-                      ),
-                      const SizedBox(width: TSizes.smallSpace),
+                  TRoundedContainer(
+                    padding: const EdgeInsets.all(TSizes.md),
+                    backgroundColor: dark ? TColors.darkerGrey : TColors.grey,
+                    child: Column(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            /// Dish Component
+                            ...product.dishes.map((dish) => Row(
+                                  children: [
+                                    /// Dish Name
+                                    Text(
+                                      '+ ${dish.dishName}',
+                                    ),
+                                    const SizedBox(width: TSizes.smallSpace),
 
-                      /// Quantity
-                      Text(
-                        'x1',
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      ),
-                    ],
-                  ),
-
-                  Row(
-                    children: [
-                      /// Dish Name
-                      const Text(
-                        '+ Ba chỉ bò Mỹ (250g)',
-                      ),
-                      const SizedBox(width: TSizes.smallSpace),
-
-                      /// Quantity
-                      Text(
-                        'x1',
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      ),
-                    ],
-                  ),
-
-                  Row(
-                    children: [
-                      /// Dish Name
-                      const Text(
-                        '+ Diềm cơ (200g)',
-                      ),
-                      const SizedBox(width: TSizes.smallSpace),
-
-                      /// Quantity
-                      Text(
-                        'x2',
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      ),
-                    ],
+                                    /// Quantity
+                                    Text(
+                                      'x${dish.dishQuantity}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineSmall,
+                                    ),
+                                  ],
+                                )),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -95,25 +83,27 @@ class TProductAttributes extends StatelessWidget {
         const SizedBox(height: TSizes.spaceBtwItems),
         const TSectionHeading(title: 'Mô tả', showActionButton: false),
         const SizedBox(height: TSizes.spaceBtwItems),
-        const ReadMoreText(
-            'Thực đơn bao gồm nhiều món ăn hấp dẫn và phong phú, bắt đầu với xúc xích nấm thơm ngon và ba chỉ bò Mỹ mềm mịn, nướng thơm lừng. Diềm cơ đậm đà và dẻ sườn thấm đẫm gia vị chắc chắn sẽ làm hài lòng những thực khách khó tính nhất. Sốt chấm đặc biệt, đi kèm với nấm tiên (nấm đùi gà) tươi ngon và kim chi cải thảo giòn tan, chua cay hài hòa, tạo nên một bữa ăn trọn vẹn. Bắp Mỹ, khoai và lá nhíp không chỉ bổ sung độ giòn và vị ngọt mà còn thêm phần dinh dưỡng. Ngoài ra, miến Hàn Quốc hoặc mỳ gói Hàn Quốc và món lẩu quân đội đặc trưng cũng góp phần làm cho bữa tiệc thêm phong phú và đa dạng. Giá đã bao gồm 10% VAT, mang đến cho bạn một trải nghiệm ẩm thực hoàn hảo.',
-            trimLines: 5,
+        ReadMoreText(product.packageDescription,
+            trimLines: 4,
             trimMode: TrimMode.Line,
             trimCollapsedText: ' mở rộng',
             trimExpandedText: ' thu gọn',
-            moreStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
-            lessStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w800)),
+            moreStyle:
+                const TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
+            lessStyle:
+                const TextStyle(fontSize: 14, fontWeight: FontWeight.w800)),
 
         /// Reviews
+        const SizedBox(height: TSizes.spaceBtwItems),
         const Divider(),
         const SizedBox(height: TSizes.spaceBtwItems),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const TSectionHeading(
-                title: 'Reviews (69)', showActionButton: false),
+                title: 'Đánh giá (69)', showActionButton: false),
             IconButton(
-              onPressed: () {},
+              onPressed: ()=> Get.to(()=> const ProductReviewsScreen()),
               icon: const Icon(
                 Iconsax.arrow_right_3,
                 size: 18,

@@ -11,9 +11,9 @@ import 'package:kgrill_mobile/utils/constants/sizes.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../common/widgets/list_titles/t_user_profile_title.dart';
+import '../../../../data/services/personalization/user_profile_service.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../authentication/controllers/logout/logout_controller.dart';
-import '../../controller/user_profile_controller.dart';
 import '../address/address_picker.dart';
 import '../profile/profile.dart';
 
@@ -26,14 +26,16 @@ class SettingsScreen extends StatefulWidget {
 
 class SettingsScreenState extends State<SettingsScreen> {
   final controller = Get.put(LogoutController());
-  final userProfileController = Get.put(UserProfileController());
   String? _selectedAddress;
   bool _locationSharingEnabled = false;
+  Map<String, dynamic>? userProfile;
+  ScaffoldMessengerState? _scaffoldMessengerState;
 
   @override
   void initState() {
     super.initState();
     _checkLocationPermission();
+    _loadUserProfile();
   }
 
   Future<void> _checkLocationPermission() async {
@@ -50,12 +52,23 @@ class SettingsScreenState extends State<SettingsScreen> {
     });
   }
 
+  Future<void> _loadUserProfile() async {
+    var result = await UserProfileService().getUserProfile();
+    if (result['success']) {
+      setState(() {
+        userProfile = result['data'];
+      });
+    } else {
+      _scaffoldMessengerState?.showSnackBar(
+        SnackBar(content: Text(result['message'])),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Obx(() {
-      final userProfile = userProfileController.userProfile.value;
-      return userProfile.isEmpty
+      body: userProfile == null
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
               child: Column(
@@ -74,13 +87,22 @@ class SettingsScreenState extends State<SettingsScreen> {
                         ///User Profile Card
                         TUserProfileTitle(
                           onPressed: () => Get.to(() => const ProfileScreen()),
-                          fullName: userProfile['data']['first_name'] +
+                          fullName: userProfile!['data']['first_name'] +
                               " " +
-                              userProfile['data']['last_name'],
-                          email: userProfile['data']['email'],
-                          profilePicture: userProfile['data']
-                                  ['profile_picture'] ??
-                              TImages.hotPotIcon,
+                              userProfile!['data']['last_name'],
+                          email: userProfile?['data']['email'],
+                          profilePicture: (userProfile?['data']
+                                          ['profile_picture'] ==
+                                      null ||
+                                  userProfile?['data']['profile_picture'] ==
+                                      "null")
+                              ? TImages.grillIcon
+                              : userProfile?['data']['profile_picture'],
+                          isNetworkImage: !(userProfile?['data']
+                                      ['profile_picture'] ==
+                                  null ||
+                              userProfile?['data']['profile_picture'] ==
+                                  "null"),
                         ),
                         const SizedBox(height: TSizes.spaceBtwSections),
                       ],
@@ -143,7 +165,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                         TSettingsMenuTile(
                           icon: Iconsax.message_question,
                           title: 'Chia sẻ vị trí',
-                          subtitle: 'Chia sẻ vị trí của bạn hiện tại',
+                          subtitle: 'Cài đặt vị trí hiện tại',
                           trailing: Switch(
                             value: _locationSharingEnabled,
                             onChanged: (value) async {
@@ -182,11 +204,10 @@ class SettingsScreenState extends State<SettingsScreen> {
                         const SizedBox(height: TSizes.spaceBtwSections),
                       ],
                     ),
-                  ),
+                  )
                 ],
               ),
-      );
-      }),
+            ),
     );
   }
 
@@ -201,8 +222,7 @@ class SettingsScreenState extends State<SettingsScreen> {
             backgroundColor: Colors.red,
             side: const BorderSide(color: Colors.red)),
         child: const Padding(
-            padding: EdgeInsets.symmetric(
-                vertical:6.0, horizontal: TSizes.lg),
+            padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: TSizes.lg),
             child: Text('Đồng ý')),
       ),
       // ElevatedButton
