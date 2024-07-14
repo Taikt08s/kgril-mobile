@@ -32,7 +32,7 @@ class HttpInterceptor extends http.BaseClient {
         response = await _client.send(request);
       } else {
         await logoutUser();
-        Get.off(() => const LoginScreen());
+        Get.offAll(() => const LoginScreen());
         throw Exception('Session expired. Please login again.');
       }
     }

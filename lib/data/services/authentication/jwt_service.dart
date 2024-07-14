@@ -9,7 +9,7 @@ import '../../../utils/constants/connection_strings.dart';
 
 class TokenService {
   final secureStorage = const FlutterSecureStorage();
-  var client = http.Client();
+  final http.Client client = http.Client();
 
   Future<bool> isTokenExpired(String? token) async {
     if (token == null) return true;
@@ -36,8 +36,7 @@ class TokenService {
       final parts = token.split('.');
       if (parts.length != 3) return true;
 
-      final payload = jsonDecode(
-          utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))));
+      final payload = jsonDecode(utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))));
       final exp = payload['exp'];
       if (exp == null) return true;
 
@@ -53,28 +52,24 @@ class TokenService {
 
     if (await isRefreshTokenExpired(refreshToken)) {
       await secureStorage.deleteAll();
-      Get.offAll(const LoginScreen());
+      Get.offAll(() => const LoginScreen());
       return;
     }
 
     try {
-      var response = await client
-          .post(
-            Uri.parse('${TConnectionStrings.deployment}auth/refresh-token'),
-            headers: {'Content-Type': 'application/json'},
-            body: jsonEncode({"refresh_token": refreshToken}),
-          )
-          .timeout(const Duration(seconds: 10));
+      var response = await client.post(
+        Uri.parse('${TConnectionStrings.deployment}auth/refresh-token'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({"refresh_token": refreshToken}),
+      ).timeout(const Duration(seconds: 10));
 
       var responseData = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
-        await secureStorage.write(
-            key: 'access_token', value: responseData['access_token']);
-      } else if (response.statusCode == 401 &&
-          responseData['message'] == 'JWT token has expired and revoked') {
+        await secureStorage.write(key: 'access_token', value: responseData['access_token']);
+      } else if (response.statusCode == 401 && responseData['message'] == 'JWT token has expired and revoked') {
         await secureStorage.deleteAll();
-        Get.offAll(const LoginScreen());
+        Get.offAll(() => const LoginScreen());
       }
     } catch (e) {
       if (kDebugMode) {

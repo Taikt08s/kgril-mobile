@@ -73,7 +73,7 @@ class LocationPickerState extends State<LocationPicker> {
       Placemark place = placemarks[0];
       setState(() {
         _currentAddress =
-        "${place.street}, ${place.locality}, ${place.postalCode}, ${place.country}";
+        "${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.country}";
       });
       if (kDebugMode) {
         print('Current address: $_currentAddress');
