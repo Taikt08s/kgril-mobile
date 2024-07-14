@@ -29,7 +29,7 @@ class UserProfileService {
       ).timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
+        final data = jsonDecode(utf8.decode(response.bodyBytes));
         if (kDebugMode) {
           print('Successfully retrieved user information: $data');
         }
@@ -108,6 +108,60 @@ class UserProfileService {
       return {
         "success": false,
         "message": 'Error updating profile picture: $e'
+      };
+    }
+  }
+
+  Future<Map<String, Object>> updateUserProfile(Map<String, dynamic> updatedFields) async {
+    String? accessToken = await getAccessToken();
+    if (accessToken == null) {
+      return {"success": false, "message": "No access token found"};
+    }
+
+    var userProfile = await getUserProfile();
+    if (userProfile["success"] != true) {
+      return {"success": false, "message": "Failed to get user profile"};
+    }
+
+    String userId = userProfile["data"]["data"]["user_id"];
+    Map<String, dynamic> userData = userProfile["data"]["data"];
+
+    userData.addAll(updatedFields);
+
+    try {
+      var response = await client.put(
+        Uri.parse('${TConnectionStrings.deployment}account/profile?id=$userId'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $accessToken',
+        },
+        body: jsonEncode(userData),
+      ).timeout(const Duration(seconds: 10));
+
+      if (response.statusCode == 200) {
+        if (kDebugMode) {
+          print('Successfully updated user profile');
+        }
+        return {
+          "success": true,
+          "message": "User profile updated successfully"
+        };
+      } else {
+        if (kDebugMode) {
+          print('Failed to update user profile: ${response.body}');
+        }
+        return {
+          "success": false,
+          "message": 'Failed to update user profile',
+        };
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error updating user profile: $e');
+      }
+      return {
+        "success": false,
+        "message": 'Error updating user profile: $e'
       };
     }
   }

@@ -50,6 +50,7 @@ class TImages {
   static const String screenLoadingSparkle2 = "assets/images/loading/sparkle-hehe.gif";
   static const String screenLoadingSparkle3 = "assets/images/loading/sparkle-mask.gif";
   static const String screenLoadingSparkle4 = "assets/images/loading/sparkle-lighter.gif";
+  static const String screenLoadingRobin = "assets/images/loading/robin-singing.gif";
 
 //--Icon Images
   static const String grillIcon = "assets/images/icons/grill.gif";
@@ -60,5 +61,9 @@ class TImages {
   static const String userImage2 = "assets/images/profiles/profile_image_2.png";
   static const String userImage3 = "assets/images/profiles/profile_image_3.png";
   static const String userImage4 = "assets/images/profiles/profile_image_4.png";
+
+//--Payment Images
+  static const String paypal = "assets/images/payments/paypal.png";
+  static const String visa = "assets/images/payments/visa.png";
 
 }

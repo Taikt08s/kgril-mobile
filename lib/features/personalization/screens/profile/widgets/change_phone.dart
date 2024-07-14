@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../../../common/widgets/appbar/appbar.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/constants/text_strings.dart';
 import '../../../../../utils/validators/validation.dart';
+import '../../../controller/user_profile_controller.dart';
 
 
 class ChangePhoneNumber extends StatelessWidget {
@@ -12,7 +14,7 @@ class ChangePhoneNumber extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final controller = Get.put(UpdateNameController());
+    final controller = Get.put(UserProfileController());
     return Scaffold(
       // Custom Appbar
       appBar: TAppBar(
@@ -35,12 +37,13 @@ class ChangePhoneNumber extends StatelessWidget {
 
             // Text field and Button
             Form(
-              // key: controller.updateUserNameFormKey,
+              key: controller.profileFormKey,
               child: Column(
                 children: [
                   TextFormField(
-                    // controller: controller.firstName,
-                    validator: (value) => TValidator.validateEmptyText('Số điện thoại', value),
+                    controller: controller.phone,
+                    keyboardType: TextInputType.phone,
+                    validator: (value) => TValidator.validatePhoneNumber(value),
                     expands: false,
                     decoration: const InputDecoration(labelText: TTexts.phoneNo, prefixIcon: Icon(Iconsax.call)),
                   ),
@@ -53,8 +56,7 @@ class ChangePhoneNumber extends StatelessWidget {
             // Save Button
             SizedBox(
               width: double.infinity,
-              // child: ElevatedButton(onPressed: () => controller.updateUserName(), child: const Text('Save')),
-              child: ElevatedButton(onPressed: () => {}, child: const Text('Lưu')),
+              child: ElevatedButton(onPressed: () => controller.updateUserProfile(), child: const Text('Lưu')),
             ),
             // SizedBox
           ],

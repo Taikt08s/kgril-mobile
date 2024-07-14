@@ -5,6 +5,8 @@ import 'package:kgrill_mobile/common/widgets/appbar/appbar.dart';
 import 'package:kgrill_mobile/common/widgets/images/t_circular_image.dart';
 import 'package:kgrill_mobile/common/widgets/texts/section_heading.dart';
 import 'package:kgrill_mobile/features/personalization/screens/profile/widgets/change_address.dart';
+import 'package:kgrill_mobile/features/personalization/screens/profile/widgets/change_date_of_birth.dart';
+import 'package:kgrill_mobile/features/personalization/screens/profile/widgets/change_gender.dart';
 import 'package:kgrill_mobile/features/personalization/screens/profile/widgets/change_name.dart';
 import 'package:kgrill_mobile/features/personalization/screens/profile/widgets/change_phone.dart';
 import 'package:kgrill_mobile/features/personalization/screens/profile/widgets/profile_menu.dart';
@@ -140,11 +142,11 @@ class ProfileScreenState extends State<ProfileScreen> {
                   title: 'Địa chỉ',
                   value: '${userProfile!['data']['address']}'),
               TProfileMenu(
-                  onPressed: () {},
+                  onPressed: () => Get.to(() => const ChangeUserGender()),
                   title: 'Giới tính',
                   value: '${userProfile!['data']['gender']}'),
               TProfileMenu(
-                  onPressed: () {},
+                  onPressed: () => Get.to(() => const ChangeUserDob()),
                   title: 'Ngày sinh',
                   value: '${userProfile!['data']['dob']}'),
               const Divider(),

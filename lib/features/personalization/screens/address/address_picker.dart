@@ -48,7 +48,7 @@ class LocationPickerState extends State<LocationPicker> {
   Future<void> _getCurrentLocation() async {
     try {
       Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
+        desiredAccuracy: LocationAccuracy.best,
       );
       setState(() {
         _currentPosition = LatLng(position.latitude, position.longitude);
@@ -119,6 +119,7 @@ class LocationPickerState extends State<LocationPicker> {
             mapType: MapType.normal,
             trafficEnabled: true,
             myLocationEnabled: true,
+            buildingsEnabled: true,
             onMapCreated: _onMapCreated,
             onTap: (LatLng position) {
               if (_isWithinCircle(_currentPosition!, position, radius)) {

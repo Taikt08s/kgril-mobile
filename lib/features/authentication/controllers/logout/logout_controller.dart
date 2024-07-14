@@ -49,7 +49,7 @@ class LogoutController extends GetxController {
         TLoaders.successSnackBar(
             title: 'Đăng xuất thành công',
             message: 'Bạn đã đăng xuất thành công');
-        Get.off(() => const LoginScreen());
+        Get.offAll(() => const LoginScreen());
       } else if (response.statusCode == 401) {
         TLoaders.errorSnackBar(
             title: 'Đăng xuất thất bại',

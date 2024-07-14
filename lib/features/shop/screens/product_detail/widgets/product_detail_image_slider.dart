@@ -10,7 +10,6 @@ import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/helpers/helper_functions.dart';
 import '../../../models/product_detail_model.dart';
-import '../../../models/product_model.dart';
 
 class TProductImageSlider extends StatelessWidget {
   const TProductImageSlider({
@@ -33,13 +32,13 @@ class TProductImageSlider extends StatelessWidget {
                 child: Stack(
                   children: [
                     /// Main Large Image
-                    const SizedBox(
+                     SizedBox(
                       height: 400,
                       child: Padding(
-                        padding: EdgeInsets.all(TSizes.productImageRadius*1.4),
+                        padding: const EdgeInsets.all(TSizes.productImageRadius*1.4),
                         child: Center(
                           child:
-                              Image(image: AssetImage(TImages.productImages2)),
+                              TRoundedImage(imageUrl: product.packageThumbnailUrl,isNetworkImage: true,),
                         ),
                       ),
                     ),

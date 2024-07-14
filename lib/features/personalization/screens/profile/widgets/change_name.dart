@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../../../common/widgets/appbar/appbar.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/constants/text_strings.dart';
 import '../../../../../utils/validators/validation.dart';
+import '../../../controller/user_profile_controller.dart';
 
 
 class ChangeUserName extends StatelessWidget {
@@ -12,7 +14,7 @@ class ChangeUserName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final controller = Get.put(UpdateNameController());
+    final controller = Get.put(UserProfileController());
     return Scaffold(
       // Custom Appbar
       appBar: TAppBar(
@@ -35,11 +37,11 @@ class ChangeUserName extends StatelessWidget {
 
             // Text field and Button
             Form(
-              // key: controller.updateUserNameFormKey,
+              key: controller.profileFormKey,
               child: Column(
                 children: [
                   TextFormField(
-                    // controller: controller.firstName,
+                    controller: controller.firstName,
                     validator: (value) => TValidator.validateEmptyText('Họ', value),
                     expands: false,
                     decoration: const InputDecoration(labelText: TTexts.firstName, prefixIcon: Icon(Iconsax.user)),
@@ -47,7 +49,7 @@ class ChangeUserName extends StatelessWidget {
                   // TextFormField
                   const SizedBox(height: TSizes.spaceBtwInputFields),
                   TextFormField(
-                    // controller: controller.lastName,
+                    controller: controller.lastName,
                     validator: (value) => TValidator.validateEmptyText('Tên', value),
                     expands: false,
                     decoration: const InputDecoration(labelText: TTexts.lastName, prefixIcon: Icon(Iconsax.user)),
@@ -60,8 +62,7 @@ class ChangeUserName extends StatelessWidget {
             // Save Button
             SizedBox(
               width: double.infinity,
-              // child: ElevatedButton(onPressed: () => controller.updateUserName(), child: const Text('Save')),
-              child: ElevatedButton(onPressed: () => {}, child: const Text('Lưu')),
+              child: ElevatedButton(onPressed: () => controller.updateUserProfile(), child: const Text('Lưu')),
             ),
             // SizedBox
           ],
