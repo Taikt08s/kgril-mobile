@@ -10,10 +10,12 @@ import 'package:kgrill_mobile/utils/constants/colors.dart';
 import 'package:kgrill_mobile/utils/constants/sizes.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../../../common/widgets/effects/shimmer_effect.dart';
 import '../../../../common/widgets/list_titles/t_user_profile_title.dart';
 import '../../../../data/services/personalization/user_profile_service.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../authentication/controllers/logout/logout_controller.dart';
+import '../../controller/user_profile_controller.dart';
 import '../address/address_picker.dart';
 import '../profile/profile.dart';
 
@@ -26,6 +28,7 @@ class SettingsScreen extends StatefulWidget {
 
 class SettingsScreenState extends State<SettingsScreen> {
   final controller = Get.put(LogoutController());
+  final userController = Get.put(UserProfileController());
   String? _selectedAddress;
   bool _locationSharingEnabled = false;
   Map<String, dynamic>? userProfile;
@@ -85,25 +88,32 @@ class SettingsScreenState extends State<SettingsScreen> {
                                     .apply(color: TColors.white))),
 
                         ///User Profile Card
-                        TUserProfileTitle(
-                          onPressed: () => Get.to(() => const ProfileScreen()),
-                          fullName: userProfile!['data']['first_name'] +
-                              " " +
-                              userProfile!['data']['last_name'],
-                          email: userProfile?['data']['email'],
-                          profilePicture: (userProfile?['data']
+                        Obx(() {
+                          final profilePicture = userController
+                              .userUpdateProfile['data']?['profile_picture'];
+                          final networkImage = (profilePicture == null ||
+                                  profilePicture == "null")
+                              ? TImages.grillIcon
+                              : profilePicture;
+                          if (userController.profileLoading.value) {
+                            return const TShimmerEffect(
+                                width: 100, height: 100);
+                          } else {
+                            return TUserProfileTitle(
+                              onPressed: () =>
+                                  Get.to(() => const ProfileScreen()),
+                              fullName:
+                                  '${userController.firstName.text} ${userController.lastName.text}',
+                              email: userProfile?['data']['email'],
+                              profilePicture: networkImage,
+                              isNetworkImage: !(userProfile?['data']
                                           ['profile_picture'] ==
                                       null ||
                                   userProfile?['data']['profile_picture'] ==
-                                      "null")
-                              ? TImages.grillIcon
-                              : userProfile?['data']['profile_picture'],
-                          isNetworkImage: !(userProfile?['data']
-                                      ['profile_picture'] ==
-                                  null ||
-                              userProfile?['data']['profile_picture'] ==
-                                  "null"),
-                        ),
+                                      "null"),
+                            );
+                          }
+                        }),
                         const SizedBox(height: TSizes.spaceBtwSections),
                       ],
                     ),

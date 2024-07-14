@@ -33,18 +33,7 @@ class UserProfileController extends GetxController {
   final year = Rx<int>(DateTime.now().year);
 
   final List<String> vietnameseMonths = [
-    'Một',
-    'Hai',
-    'Ba',
-    'Bốn',
-    'Năm',
-    'Sáu',
-    'Bảy',
-    'Tám',
-    'Chín',
-    'Mười',
-    'Mười một',
-    'Mười hai'
+    'Một', 'Hai', 'Ba', 'Bốn', 'Năm', 'Sáu', 'Bảy', 'Tám', 'Chín', 'Mười', 'Mười một', 'Mười hai'
   ];
 
   @override
@@ -77,8 +66,7 @@ class UserProfileController extends GetxController {
         gender.text = userUpdateProfile['data']['gender'];
         address.text = userUpdateProfile['data']['address'];
         latitude.text = userUpdateProfile['data']['latitude']?.toString() ?? '';
-        longitude.text =
-            userUpdateProfile['data']['longitude']?.toString() ?? '';
+        longitude.text = userUpdateProfile['data']['longitude']?.toString() ?? '';
 
         final parsedDob = DateTime.parse(userUpdateProfile['data']['dob']);
         day.value = parsedDob.day;
@@ -129,6 +117,7 @@ class UserProfileController extends GetxController {
 
   Future<void> handleImageProfileUpload() async {
     try {
+      imageUploading.value = true;
       final image = await ImagePicker().pickImage(
           source: ImageSource.gallery,
           imageQuality: 80,
@@ -140,16 +129,14 @@ class UserProfileController extends GetxController {
         TFullScreenLoader.openLoadingDialog(
             'Đang xử lí chờ xíu...', TImages.screenLoadingSparkle4);
 
-        imageUploading.value = true;
-
         final result =
             await UserProfileService().updateUserProfilePicture(image);
+        imageUploading.value = false;
         TFullScreenLoader.stopLoading();
 
         if (result['success'] == true) {
           TLoaders.successSnackBar(
               title: 'Thành công', message: 'Cập nhật ảnh đại diện thành công');
-          // profileScreenState?.loadUserProfile();
           await loadUserProfile();
         } else {
           TLoaders.errorSnackBar(

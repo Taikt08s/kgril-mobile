@@ -12,6 +12,7 @@ import 'package:kgrill_mobile/features/personalization/screens/profile/widgets/c
 import 'package:kgrill_mobile/features/personalization/screens/profile/widgets/profile_menu.dart';
 import 'package:kgrill_mobile/utils/constants/image_strings.dart';
 
+import '../../../../common/widgets/effects/shimmer_effect.dart';
 import '../../../../data/services/personalization/user_profile_service.dart';
 import '../../../../utils/constants/sizes.dart';
 import 'package:get/get.dart';
@@ -27,6 +28,7 @@ class ProfileScreen extends StatefulWidget {
 
 class ProfileScreenState extends State<ProfileScreen> {
   final UserProfileService _userService = UserProfileService();
+  final userController = Get.put(UserProfileController());
   Map<String, dynamic>? userProfile;
   ScaffoldMessengerState? _scaffoldMessengerState;
 
@@ -63,104 +65,116 @@ class ProfileScreenState extends State<ProfileScreen> {
         title: Text('Tài Khoản & Bảo Mật'),
         showBackArrow: true,
       ),
-      body: userProfile == null
-          ? const Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(TSizes.spaceBtwItems),
-          child: Column(
-            children: [
-              ///Profile Picture
-              SizedBox(
-                width: double.infinity,
+      body: Obx(
+        () {
+          if (userController.profileLoading.value || userProfile == null) {
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(TSizes.spaceBtwItems),
                 child: Column(
                   children: [
-                    Obx(() {
-                      final profilePicture = userProfile?['data']['profile_picture'];
-                      final networkImage = (profilePicture == null || profilePicture == "null")
-                          ? TImages.grillIcon
-                          : profilePicture;
-                      return controller.imageUploading.value
-                          ? const CircularProgressIndicator()
-                          : TCircularImage(
-                        image: networkImage,
-                        width: 100,
-                        height: 100,
-                        padding: 0,
-                        isNetworkImage: !(profilePicture == null || profilePicture == "null"),
-                      );
-                    }),
-                    TextButton(
+                    ///Profile Picture
+                    SizedBox(
+                      width: double.infinity,
+                      child: Column(
+                        children: [
+                          Obx(() {
+                            final profilePicture = userController
+                                .userUpdateProfile['data']?['profile_picture'];
+                            final networkImage = (profilePicture == null ||
+                                    profilePicture == "null")
+                                ? TImages.grillIcon
+                                : profilePicture;
+                            if (userController.imageUploading.value) {
+                              return const TShimmerEffect(
+                                  width: 100, height: 100);
+                            } else {
+                              return TCircularImage(
+                                image: networkImage,
+                                width: 100,
+                                height: 100,
+                                padding: 0,
+                                isNetworkImage: !(profilePicture == null ||
+                                    profilePicture == "null"),
+                              );
+                            }
+                          }),
+                          TextButton(
+                              onPressed: () =>
+                                  controller.handleImageProfileUpload(),
+                              child: const Text('Thay ảnh đại diện'))
+                        ],
+                      ),
+                    ),
+
+                    ///Details
+                    const SizedBox(height: TSizes.spaceBtwItems / 2),
+                    const Divider(),
+                    const SizedBox(height: TSizes.spaceBtwItems),
+                    const TSectionHeading(
+                        title: 'Hồ sơ của tôi', showActionButton: false),
+                    const SizedBox(height: TSizes.spaceBtwItems),
+
+                    TProfileMenu(
+                        onPressed: () => Get.to(() => const ChangeUserName()),
+                        title: 'Tên tài khoản',
+                        value: userController.firstName.text),
+                    TProfileMenu(
+                        onPressed: () => Get.to(() => const ChangeUserName()),
+                        title: 'Tên đầy đủ',
+                        value:
+                            '${userController.firstName.text} ${userController.lastName.text}'),
+
+                    const Divider(),
+                    const SizedBox(height: TSizes.spaceBtwItems),
+                    const TSectionHeading(
+                        title: 'Thông tin cá nhân', showActionButton: false),
+                    const SizedBox(height: TSizes.spaceBtwItems),
+                    TProfileMenu(
+                      onPressed: () {},
+                      title: 'Email',
+                      value: '${userProfile?['data']['email']}',
+                      icon: Iconsax.copy,
+                      onIconPressed: () {
+                        Clipboard.setData(
+                          ClipboardData(text: userProfile?['data']['email']),
+                        );
+                      },
+                    ),
+                    TProfileMenu(
                         onPressed: () =>
-                            controller.handleImageProfileUpload(),
-                        child: const Text('Thay ảnh đại diện'))
+                            Get.to(() => const ChangePhoneNumber()),
+                        title: 'Số điện thoại',
+                        value: userController.phone.text),
+                    TProfileMenu(
+                        onPressed: () => Get.to(() => const ChangeAddress()),
+                        title: 'Địa chỉ',
+                        value: userController.address.text),
+                    TProfileMenu(
+                        onPressed: () => Get.to(() => const ChangeUserGender()),
+                        title: 'Giới tính',
+                        value: userController.gender.text),
+                    TProfileMenu(
+                        onPressed: () => Get.to(() => const ChangeUserDob()),
+                        title: 'Ngày sinh',
+                        value: userController.dob.text),
+                    const Divider(),
+                    const SizedBox(height: TSizes.spaceBtwSections),
+                    Center(
+                      child: TextButton(
+                        onPressed: () {},
+                        child: const Text('Vô hiệu hóa tài khoản',
+                            style: TextStyle(color: Colors.red)),
+                      ),
+                    )
                   ],
                 ),
               ),
-
-              ///Details
-              const SizedBox(height: TSizes.spaceBtwItems / 2),
-              const Divider(),
-              const SizedBox(height: TSizes.spaceBtwItems),
-              const TSectionHeading(
-                  title: 'Hồ sơ của tôi', showActionButton: false),
-              const SizedBox(height: TSizes.spaceBtwItems),
-
-              TProfileMenu(
-                  onPressed: () => Get.to(() => const ChangeUserName()),
-                  title: 'Tên tài khoản',
-                  value: '${userProfile!['data']['last_name']}'),
-              TProfileMenu(
-                  onPressed: () => Get.to(() => const ChangeUserName()),
-                  title: 'Tên đầy đủ',
-                  value:
-                  '${userProfile!['data']['first_name']} ${userProfile!['data']['last_name']}'),
-
-              const Divider(),
-              const SizedBox(height: TSizes.spaceBtwItems),
-              const TSectionHeading(
-                  title: 'Thông tin cá nhân', showActionButton: false),
-              const SizedBox(height: TSizes.spaceBtwItems),
-              TProfileMenu(
-                onPressed: () {},
-                title: 'Email',
-                value: '${userProfile?['data']['email']}',
-                icon: Iconsax.copy,
-                onIconPressed: () {
-                  Clipboard.setData(
-                    ClipboardData(text: userProfile?['data']['email']),
-                  );
-                },
-              ),
-              TProfileMenu(
-                  onPressed: () =>
-                      Get.to(() => const ChangePhoneNumber()),
-                  title: 'Số điện thoại',
-                  value: '${userProfile!['data']['phone']}'),
-              TProfileMenu(
-                  onPressed: () => Get.to(() => const ChangeAddress()),
-                  title: 'Địa chỉ',
-                  value: '${userProfile!['data']['address']}'),
-              TProfileMenu(
-                  onPressed: () => Get.to(() => const ChangeUserGender()),
-                  title: 'Giới tính',
-                  value: '${userProfile!['data']['gender']}'),
-              TProfileMenu(
-                  onPressed: () => Get.to(() => const ChangeUserDob()),
-                  title: 'Ngày sinh',
-                  value: '${userProfile!['data']['dob']}'),
-              const Divider(),
-              const SizedBox(height: TSizes.spaceBtwSections),
-              Center(
-                child: TextButton(
-                  onPressed: () {},
-                  child: const Text('Vô hiệu hóa tài khoản',
-                      style: TextStyle(color: Colors.red)),
-                ),
-              )
-            ],
-          ),
-        ),
+            );
+          }
+        },
       ),
     );
   }
