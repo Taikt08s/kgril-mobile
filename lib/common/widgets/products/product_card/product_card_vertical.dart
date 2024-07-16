@@ -7,6 +7,7 @@ import 'package:kgrill_mobile/utils/constants/colors.dart';
 import 'package:kgrill_mobile/utils/constants/sizes.dart';
 import 'package:kgrill_mobile/utils/helpers/helper_functions.dart';
 
+import '../../../../features/shop/screens/home/widgets/add_to_cart_button.dart';
 import '../../../../features/shop/screens/product_detail/product_detail.dart';
 import '../../../styles/shadows.dart';
 import '../../custom_shapes/containers/rounded_container.dart';
@@ -22,7 +23,6 @@ class TProductCardVertical extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
-
     double getContainerHeight(BuildContext context) {
       final screenHeight = MediaQuery.of(context).size.height;
 
@@ -52,7 +52,9 @@ class TProductCardVertical extends StatelessWidget {
     }
 
     return GestureDetector(
-      onTap: () => Get.to(() => ProductDetailScreen( productId: product.packageId,)),
+      onTap: () => Get.to(() => ProductDetailScreen(
+            productId: product.packageId,
+          )),
       child: Container(
         width: 180,
         padding: const EdgeInsets.all(1),
@@ -150,22 +152,9 @@ class TProductCardVertical extends StatelessWidget {
                         children: [
                           ///Price
                           TProductPriceText(price: product.packagePrice),
-                          Container(
-                            decoration: const BoxDecoration(
-                                color: TColors.dark,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(TSizes.cardRadiusMd),
-                                  bottomRight: Radius.circular(TSizes.productImageRadius),
-                                )),
-                            child: const SizedBox(
-                              width: TSizes.iconLg * 1.2,
-                              height: TSizes.iconLg * 1.2,
-                              child: Icon(
-                                Iconsax.add,
-                                color: TColors.white,
-                              ),
-                            ),
-                          )
+
+                          ///Add to cart button
+                          ProductCardAddToCartButton(product: product)
                         ],
                       ),
                     ),

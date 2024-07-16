@@ -12,6 +12,8 @@ import '../../../utils/popups/full_screen_loader.dart';
 import '../../../utils/popups/loaders.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import 'authentication_service.dart';
+
 Future<void> handleGoogleSignIn(BuildContext context) async {
   const secureStorage = FlutterSecureStorage();
 
@@ -65,6 +67,12 @@ Future<void> handleGoogleSignIn(BuildContext context) async {
       await secureStorage.write(key: 'access_token', value: accessToken);
       await secureStorage.write(key: 'refresh_token', value: refreshToken);
 
+      // Save token expiration and start monitoring
+      final expirationTime = DateTime.now().add(const Duration(minutes: 30));
+      final authService = AuthenticationService();
+      await authService.saveTokenExpiration(expirationTime);
+      authService.monitorTokenExpiration();
+
       TLoaders.successSnackBar(
           title: 'Chào mừng quay trở lại!',
           message: 'Rất nhiều ưu đãi đang chờ đón bạn');
@@ -91,15 +99,3 @@ Future<void> handleGoogleSignIn(BuildContext context) async {
   }
 }
 
-///This method use to logged out the user who sign in with the google account
-// Future<void> handleGoogleSignOut(BuildContext context) async {
-//   final GoogleSignIn googleSignIn = GoogleSignIn();
-//
-//   try {
-//     await googleSignIn.signOut();
-//   } catch (e) {
-//     if (kDebugMode) {
-//       print(e);
-//     }
-//   }
-// }

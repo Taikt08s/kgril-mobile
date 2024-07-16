@@ -51,6 +51,7 @@ class TImages {
   static const String screenLoadingSparkle3 = "assets/images/loading/sparkle-mask.gif";
   static const String screenLoadingSparkle4 = "assets/images/loading/sparkle-lighter.gif";
   static const String screenLoadingRobin = "assets/images/loading/robin-singing.gif";
+  static const String screenLoadingAcheron = "assets/images/loading/acheron-questioning.gif";
 
 //--Icon Images
   static const String grillIcon = "assets/images/icons/grill.gif";

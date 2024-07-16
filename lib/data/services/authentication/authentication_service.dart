@@ -137,6 +137,7 @@ class AuthenticationService {
         var expirationTime = DateTime.now().add(const Duration(minutes: 30));
         await saveTokenExpiration(expirationTime);
         monitorTokenExpiration();
+
         return {"success": true, "data": responseData};
       } else if (response.statusCode == 401) {
         if (responseData['message'] == 'Email or Password is incorrect') {

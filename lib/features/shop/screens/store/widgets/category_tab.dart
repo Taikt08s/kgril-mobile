@@ -4,29 +4,38 @@ import 'package:kgrill_mobile/common/widgets/products/product_card/product_card_
 
 import '../../../../../common/widgets/texts/section_heading.dart';
 import '../../../../../utils/constants/sizes.dart';
+import '../../../models/product_model.dart';
 
 class TCategoryTab extends StatelessWidget {
-  const TCategoryTab({super.key});
+  final List<ProductModel> products;
+
+  const TCategoryTab({super.key, required this.products});
 
   @override
   Widget build(BuildContext context) {
     return ListView(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      children:[ Padding(
-        padding: const EdgeInsets.all(TSizes.defaultSpace),
-        child: Column(
-          children: [
-            // -- Products
-            TSectionHeading(title: 'Dành cho bạn', showActionButton: true, onPressed: () {}),
-            const SizedBox(height: TSizes.spaceBtwItems),
-      
-            // TGridLayout(itemCount: 4, itemBuilder: (_,index)=>const TProductCardVertical()),
-            const SizedBox(height: TSizes.spaceBtwSections),
-          ],
-        ), // Column
-      ),
-    ]
-    ); // Padding
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(TSizes.defaultSpace),
+            child: Column(
+              children: [
+                // -- Products
+                TSectionHeading(
+                    title: 'Dành cho bạn',
+                    showActionButton: false,
+                    onPressed: () {}),
+                const SizedBox(height: TSizes.spaceBtwItems),
+
+                TGridLayout(
+                    itemCount: products.length,
+                    itemBuilder: (_, index) =>
+                        TProductCardVertical(product: products[index])),
+                const SizedBox(height: TSizes.spaceBtwSections),
+              ],
+            ), // Column
+          ),
+        ]); // Padding
   }
 }

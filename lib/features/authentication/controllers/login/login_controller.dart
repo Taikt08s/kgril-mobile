@@ -4,13 +4,12 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../../../../data/services/authentication/authentication_service.dart';
+import '../../../../navigation_dart.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/helpers/network_manager.dart';
 import '../../../../utils/popups/full_screen_loader.dart';
 import '../../../../utils/popups/loaders.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
-import '../../../shop/screens/home/home.dart';
 
 class LoginController extends GetxController {
   final hidePassword = true.obs;
@@ -64,7 +63,7 @@ class LoginController extends GetxController {
           TLoaders.successSnackBar(
               title: 'Chào mừng quay trở lại!',
               message: 'Rất nhiều ưu đãi đang chờ đón bạn');
-          Get.to(() => const HomeScreen());
+          Get.off(() => const NavigationMenu());
         }
       } else if (result['success'] == false) {
         TLoaders.warningSnackBar(

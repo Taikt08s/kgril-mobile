@@ -15,10 +15,32 @@ import 'package:kgrill_mobile/utils/helpers/helper_functions.dart';
 
 import '../../../../common/widgets/images/t_circular_image.dart';
 import '../../../../common/widgets/texts/t_brand_title_text_with_verified_icon.dart';
+import '../../../../data/services/shop/product_service.dart';
 import '../../../../utils/constants/enums.dart';
+import '../../models/product_model.dart';
 
-class Store extends StatelessWidget {
+class Store extends StatefulWidget {
   const Store({super.key});
+
+  @override
+  _StoreState createState() => _StoreState();
+}
+
+class _StoreState extends State<Store> {
+  late Future<List<ProductModel>> comboNuong;
+  late Future<List<ProductModel>> comboLau;
+  late Future<List<ProductModel>> comboCom;
+  late Future<List<ProductModel>> comboNuongLau;
+
+  @override
+  void initState() {
+    super.initState();
+    ProductService productService = ProductService();
+    comboNuong = productService.fetchProductsByType('nướng');
+    comboLau = productService.fetchProductsByType('lẩu');
+    comboCom = productService.fetchProductsByType('cơm');
+    comboNuongLau = productService.fetchProductsByType('nướng + lẩu');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +50,8 @@ class Store extends StatelessWidget {
         appBar: TAppBar(
           title: Text('Trang chủ',
               style: Theme.of(context).textTheme.headlineMedium),
-          actions: [
+          actions: const [
             TCartCounterIcon(
-              onPressed: () {},
               iconColor: Colors.black,
             ),
           ],
@@ -45,7 +66,7 @@ class Store extends StatelessWidget {
                 backgroundColor: THelperFunctions.isDarkMode(context)
                     ? TColors.black
                     : TColors.white,
-                expandedHeight: 300,
+                expandedHeight: 380,
                 flexibleSpace: Padding(
                   padding: const EdgeInsets.all(TSizes.defaultSpace),
                   child: ListView(
@@ -63,12 +84,12 @@ class Store extends StatelessWidget {
                       const SizedBox(height: TSizes.spaceBtwItems),
 
                       ///Store categories
-                      TSectionHeading(title: 'Danh mục', onPressed: () {}),
+                      TSectionHeading(title: 'Danh mục', onPressed: () {},showActionButton: false,),
                       const SizedBox(height: TSizes.spaceBtwItems / 1.5),
 
                       ///Categories
                       TGridLayout(
-                        itemCount: 2,
+                        itemCount: 4,
                         mainAxisExtent: 80,
                         itemBuilder: (_, index) {
                           return GestureDetector(
@@ -87,8 +108,7 @@ class Store extends StatelessWidget {
                                       backgroundColor: Colors.transparent,
                                     ),
                                   ),
-                                  const SizedBox(
-                                      height: TSizes.spaceBtwItems / 4),
+                                  const SizedBox(height: TSizes.spaceBtwItems / 4),
 
                                   ///Text
                                   Flexible(
@@ -103,10 +123,7 @@ class Store extends StatelessWidget {
                                         Text(
                                           '10 combo',
                                           overflow: TextOverflow.ellipsis,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .labelMedium,
-                                        )
+                                          style: Theme.of(context).textTheme.labelMedium)
                                       ],
                                     ),
                                   ),
@@ -125,19 +142,71 @@ class Store extends StatelessWidget {
                   tabs: [
                     Tab(child: Text('Combo Nướng')),
                     Tab(child: Text('Combo Lẩu')),
-                    Tab(child: Text('Kèm tráng miệng')),
-                    Tab(child: Text('Kèm thức uống')),
+                    Tab(child: Text('Combo Cơm')),
+                    Tab(child: Text('Combo Nướng + Lẩu')),
                   ],
                 ),
               ),
             ];
           },
-          body: const TabBarView(
+          body: TabBarView(
             children: [
-              TCategoryTab(),
-              TCategoryTab(),
-              TCategoryTab(),
-              TCategoryTab(),
+              FutureBuilder<List<ProductModel>>(
+                future: comboNuong,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Center(child: Text('Không có sản phẩm'));
+                  } else {
+                    return TCategoryTab(products: snapshot.data!);
+                  }
+                },
+              ),
+              FutureBuilder<List<ProductModel>>(
+                future: comboLau,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Center(child: Text('Không có sản phẩm'));
+                  } else {
+                    return TCategoryTab(products: snapshot.data!);
+                  }
+                },
+              ),
+              FutureBuilder<List<ProductModel>>(
+                future: comboCom,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Center(child: Text('Không có sản phẩm'));
+                  } else {
+                    return TCategoryTab(products: snapshot.data!);
+                  }
+                },
+              ),
+              FutureBuilder<List<ProductModel>>(
+                future: comboNuongLau,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Center(child: Text('Không có sản phẩm'));
+                  } else {
+                    return TCategoryTab(products: snapshot.data!);
+                  }
+                },
+              ),
             ],
           ),
         ),

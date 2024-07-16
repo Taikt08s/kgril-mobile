@@ -3,8 +3,6 @@ import 'package:iconsax/iconsax.dart';
 
 import '../../../utils/constants/sizes.dart';
 import '../appbar/appbar.dart';
-import '../layouts/grid_layout.dart';
-import '../products/product_card/product_card_vertical.dart';
 
 class AllProducts extends StatelessWidget {
   const AllProducts({super.key});

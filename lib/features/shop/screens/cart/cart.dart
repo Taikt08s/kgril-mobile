@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kgrill_mobile/common/widgets/loaders/animation_loader.dart';
 import 'package:kgrill_mobile/features/shop/screens/cart/widgets/cart_items.dart';
+import 'package:kgrill_mobile/navigation_dart.dart';
+import 'package:kgrill_mobile/utils/constants/image_strings.dart';
 import '../../../../common/widgets/appbar/appbar.dart';
 import '../../../../utils/constants/sizes.dart';
+import '../../controllers/product/cart_controller.dart';
 import '../checkout/checkout.dart';
 
 class CartScreen extends StatelessWidget {
@@ -10,19 +14,45 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cartController = Get.put(CartController());
     return Scaffold(
       appBar: TAppBar(
           showBackArrow: true,
           title: Text('Giỏ hàng',
               style: Theme.of(context).textTheme.headlineSmall)),
-      body: const TCartItems(),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(TSizes.defaultSpace),
-        child: SizedBox(
-            height: 60,
-            child: ElevatedButton(
-                onPressed: () => Get.to(()=>const CheckoutScreen()), child: const Text('Thanh toán ₫599,000'))),
+      body: Obx(
+        () {
+          //nothing found widget
+          final emptyWidget = TAnimationLoaderWidget(
+              text: 'Giỏ hàng trống trơn',
+              animation: TImages.screenLoadingAcheron,
+              showAction: true,
+              actionText: 'Tiếp tục lựa chọn',
+              onActionPressed: () => Get.off(() => const NavigationMenu()));
+
+          if (cartController.cartItems.isEmpty) {
+            return emptyWidget;
+          } else {
+            return const SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.all(TSizes.defaultSpace),
+                child: TCartItems(),
+              ),
+            );
+          }
+        },
       ),
+      bottomNavigationBar: cartController.cartItems.isEmpty
+          ? const SizedBox()
+          : Padding(
+              padding: const EdgeInsets.all(TSizes.defaultSpace),
+              child: SizedBox(
+                  height: 60,
+                  child: ElevatedButton(
+                      onPressed: () => Get.to(() => const CheckoutScreen()),
+                      child: Obx(() => Text(
+                          'Thanh toán ${cartController.formatPrice(cartController.totalCartPrice.value)}')))),
+            ),
     );
   }
 }

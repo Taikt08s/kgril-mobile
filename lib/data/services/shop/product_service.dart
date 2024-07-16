@@ -49,4 +49,9 @@ class ProductService {
       throw Exception('Error retrieving product data: $e');
     }
   }
+
+  Future<List<ProductModel>> fetchProductsByType(String type) async {
+    List<ProductModel> products = await fetchProductData();
+    return products.where((product) => product.packageType == type).toList();
+  }
 }

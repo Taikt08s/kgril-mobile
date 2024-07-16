@@ -22,4 +22,14 @@ class ProductModel {
       packageThumbnailUrl: json['package_thumbnail_url'],
     );
   }
+
+   Map<String, dynamic> toJson() {
+     return {
+       'package_id': packageId,
+       'package_name': packageName,
+       'package_price': packagePrice,
+       'package_type': packageType,
+       'package_thumbnail_url': packageThumbnailUrl,
+     };
+   }
 }

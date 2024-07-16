@@ -11,9 +11,7 @@ import '../../controllers/product/product_detail_controller.dart';
 import '../../models/product_detail_model.dart';
 
 class ProductDetailScreen extends StatelessWidget {
-  final ProductDetailController productDetailController =
-      Get.put(ProductDetailController());
-
+  final ProductDetailController productDetailController = Get.put(ProductDetailController());
   ProductDetailScreen({super.key, required this.productId});
 
   final int productId;
@@ -23,7 +21,7 @@ class ProductDetailScreen extends StatelessWidget {
     productDetailController.fetchProductDetail(productId);
 
     return Scaffold(
-      bottomNavigationBar: const TBottomAddToCart(),
+      bottomNavigationBar:  TBottomAddToCart(product: productDetailController),
       body: Obx(() {
         if (productDetailController.productDetail.value.packageId == 0) {
           return const Center(child: CircularProgressIndicator());
