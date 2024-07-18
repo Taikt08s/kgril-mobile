@@ -7,6 +7,7 @@ import 'package:kgrill_mobile/utils/constants/colors.dart';
 import 'package:kgrill_mobile/utils/helpers/helper_functions.dart';
 
 import 'features/shop/screens/home/home.dart';
+import 'features/shop/screens/order/order.dart';
 
 class NavigationMenu extends StatelessWidget {
   const NavigationMenu({super.key});
@@ -32,8 +33,7 @@ class NavigationMenu extends StatelessWidget {
           ),
           destinations: const [
             NavigationDestination(icon: Icon(Iconsax.like_1), label: 'Gợi ý'),
-            NavigationDestination(
-                icon: Icon(Iconsax.shop), label: 'Trang chủ'),
+            NavigationDestination(icon: Icon(Iconsax.shop), label: 'Trang chủ'),
             NavigationDestination(icon: Icon(Iconsax.receipt), label: 'Đơn mua'),
             NavigationDestination(icon: Icon(Iconsax.user), label: 'Tôi'),
           ],
@@ -50,9 +50,7 @@ class NavigationController extends GetxController {
   final screens = [
     const HomeScreen(),
     const Store(),
-    Container(
-      color: Colors.orange,
-    ),
+    const OrderScreen(),
     const SettingsScreen(),
   ];
 }

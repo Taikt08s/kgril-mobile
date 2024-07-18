@@ -85,7 +85,8 @@ class SettingsScreenState extends State<SettingsScreen> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .headlineMedium!
-                                    .apply(color: TColors.white))),
+                                    .apply(color: TColors.white)),
+                            showBackArrow: false),
 
                         ///User Profile Card
                         Obx(() {

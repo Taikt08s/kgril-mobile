@@ -21,38 +21,44 @@ class TCartItems extends StatelessWidget {
         itemCount: cartController.cartItems.length,
         separatorBuilder: (_, __) =>
             const SizedBox(height: TSizes.spaceBtwSections),
-        itemBuilder: (_, index) => Obx(
-          () {
-            final item = cartController.cartItems[index];
-            return Column(
-              children: [
-                TCartItem(cartItem: item),
-                if (showAddRemoveButtons)
-                  const SizedBox(height: TSizes.spaceBtwItems),
-                if (showAddRemoveButtons)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          const SizedBox(width: 70),
-
-                          ///Add remove button
-                          TProductQuantityWithAddAndRemoveButton(
-                            quantity: item.quantity,
-                            add: () => cartController.addToCartWithDefaultQuantity(item),
-                            remove: () => cartController.removeFromCart(item),
-                          ),
-                        ],
-                      ),
-                      TProductPriceText(
-                          price: (item.packagePrice * item.quantity)),
-                    ],
-                  )
-              ],
-            );
-          },
-        ),
+        itemBuilder: (_, index) {
+          final item = cartController.cartItems[index];
+          return Column(
+            children: [
+              TCartItem(cartItem: item),
+              if (showAddRemoveButtons)
+                const SizedBox(height: TSizes.spaceBtwItems),
+              if (showAddRemoveButtons)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        const SizedBox(width: 70),
+                        TProductQuantityWithAddAndRemoveButton(
+                          quantity: item.packageQuantity,
+                          add: () async {
+                            await cartController.updateCartItemQuantity(
+                                item.orderDetailId, item.packageQuantity + 1);
+                          },
+                          remove: () async {
+                            if (item.packageQuantity > 1) {
+                              await Future.delayed(const Duration(milliseconds: 400));
+                              await cartController.updateCartItemQuantity(item.orderDetailId, item.packageQuantity - 1);
+                            } else {
+                              cartController.removeFromCartDialog(item.orderDetailId);
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                    TProductPriceText(
+                        price: (item.packagePrice * item.packageQuantity)),
+                  ],
+                ),
+            ],
+          );
+        },
       ),
     );
   }

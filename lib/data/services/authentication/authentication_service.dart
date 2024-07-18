@@ -8,6 +8,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:jose/jose.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../shop/cart_service.dart';
 import 'http_interceptor.dart';
 
 class AuthenticationService {
@@ -137,6 +138,8 @@ class AuthenticationService {
         var expirationTime = DateTime.now().add(const Duration(minutes: 30));
         await saveTokenExpiration(expirationTime);
         monitorTokenExpiration();
+
+        Get.put(() => CartService());
 
         return {"success": true, "data": responseData};
       } else if (response.statusCode == 401) {

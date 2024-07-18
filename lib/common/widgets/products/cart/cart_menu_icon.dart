@@ -40,7 +40,7 @@ class TCartCounterIcon extends StatelessWidget {
             child: Center(
               child: Obx(
                 () => Text(
-                  controller.totalQuantity().toString(),
+                  controller.totalCartQuantity.toString(),
                   style: Theme.of(context)
                       .textTheme
                       .labelLarge!

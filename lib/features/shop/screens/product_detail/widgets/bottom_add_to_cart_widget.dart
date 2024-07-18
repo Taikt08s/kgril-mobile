@@ -6,12 +6,11 @@ import '../../../../../common/widgets/icons/t_circular_icon.dart';
 import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/helpers/helper_functions.dart';
+import '../../../../../utils/popups/loaders.dart';
 import '../../../controllers/product/cart_controller.dart';
 import '../../../controllers/product/product_detail_controller.dart';
-import '../../../models/product_detail_model.dart';
-import '../../../models/product_model.dart';
 
-class TBottomAddToCart extends StatelessWidget {
+class TBottomAddToCart extends StatefulWidget {
   const TBottomAddToCart({
     super.key,
     required this.product,
@@ -20,13 +19,16 @@ class TBottomAddToCart extends StatelessWidget {
   final ProductDetailController product;
 
   @override
+  TBottomAddToCartState createState() => TBottomAddToCartState();
+}
+
+class TBottomAddToCartState extends State<TBottomAddToCart> {
+  int quantity = 1;
+
+  @override
   Widget build(BuildContext context) {
     final cartController = Get.put(CartController());
     final dark = THelperFunctions.isDarkMode(context);
-
-    int packageId = product.productDetail.value.packageId;
-    cartController.productQuantityInCart.value =
-        cartController.getProductQuantityInCart(packageId);
 
     return Container(
       padding: const EdgeInsets.symmetric(
@@ -50,17 +52,15 @@ class TBottomAddToCart extends StatelessWidget {
                 height: 40,
                 color: TColors.white,
                 onPressed: () {
-                  if (cartController.productQuantityInCart.value > 0) {
-                    cartController.productQuantityInCart.value--;
-                    cartController.updateQuantity(
-                        packageId, cartController.productQuantityInCart.value);
+                  if (quantity > 1) {
+                    setState(() {
+                      quantity--;
+                    });
                   }
                 },
               ),
               const SizedBox(width: TSizes.spaceBtwItems),
-              Obx(() => Text(
-                  cartController.productQuantityInCart.value.toString(),
-                  style: Theme.of(context).textTheme.titleSmall)),
+              Text(quantity.toString(), style: Theme.of(context).textTheme.titleSmall),
               const SizedBox(width: TSizes.spaceBtwItems),
               TCircularIcon(
                 icon: Iconsax.add,
@@ -69,20 +69,18 @@ class TBottomAddToCart extends StatelessWidget {
                 height: 40,
                 color: TColors.white,
                 onPressed: () {
-                  cartController.productQuantityInCart.value++;
-                  cartController.updateQuantity(
-                      packageId, cartController.productQuantityInCart.value);
+                  setState(() {
+                    quantity++;
+                  });
                 },
               ),
             ],
           ),
           ElevatedButton(
-              onPressed: () {
-                final cartItem = cartController.convertDetailToCartItem(
-                  product.productDetail.value,
-                  cartController.productQuantityInCart.value,
-                );
-                cartController.addToCart(cartItem);
+              onPressed: () async {
+                final productId = widget.product.productDetail.value.packageId;
+                await cartController.addToCart(productId, quantity);
+                TLoaders.customToast(message: 'Đã thêm vào giỏ hàng');
               },
               style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.all(TSizes.md),

@@ -6,6 +6,7 @@ import 'package:kgrill_mobile/features/shop/models/product_model.dart';
 
 import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/sizes.dart';
+import '../../../../../utils/popups/loaders.dart';
 
 class ProductCardAddToCartButton extends StatelessWidget {
   const ProductCardAddToCartButton({
@@ -17,29 +18,38 @@ class ProductCardAddToCartButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cartController = Get.put(CartController());
-    return InkWell(
-      onTap: () {
-        final cartItem = cartController.convertToCartItem(product, 1);
-        cartController.addToCart(cartItem);
+    final cartController = Get.find<CartController>();
+    return GestureDetector(
+      onTap: () async {
+        final existingItem = cartController.cartItems
+            .firstWhereOrNull((item) => item.packageId == product.packageId);
+        if (existingItem == null) {
+          await cartController.addToCart(product.packageId, 1);
+          TLoaders.customToast(message: 'Đã thêm vào giỏ hàng');
+        } else {
+          await cartController.addToCart(
+              product.packageId, existingItem.packageQuantity + 1);
+        }
       },
       child: Obx(() {
-          final productQuantityInCart =
-              cartController.getProductQuantityInCart(product.packageId);
-          return Container(
-            decoration: BoxDecoration(
-                color:
-                    productQuantityInCart > 0 ? TColors.primary : TColors.dark,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(TSizes.cardRadiusMd),
-                  bottomRight: Radius.circular(TSizes.productImageRadius),
-                )),
-            child: SizedBox(
-              width: TSizes.iconLg * 1.2,
-              height: TSizes.iconLg * 1.2,
+        final item = cartController.cartItems
+            .firstWhereOrNull((item) => item.packageId == product.packageId);
+        final quantity = item?.packageQuantity ?? 0;
+        return Container(
+          decoration: BoxDecoration(
+            color: quantity > 0 ? TColors.primary : TColors.dark,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(TSizes.cardRadiusMd),
+              bottomRight: Radius.circular(TSizes.productImageRadius),
+            ),
+          ),
+          child: SizedBox(
+            width: TSizes.iconLg * 1.2,
+            height: TSizes.iconLg * 1.2,
+            child: Center(
               child: Center(
-                child: productQuantityInCart > 0
-                    ? Text(productQuantityInCart.toString(),
+                child: quantity > 0
+                    ? Text('$quantity',
                         style: Theme.of(context)
                             .textTheme
                             .bodyLarge!
@@ -47,9 +57,9 @@ class ProductCardAddToCartButton extends StatelessWidget {
                     : const Icon(Iconsax.add, color: TColors.white),
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      }),
     );
   }
 }

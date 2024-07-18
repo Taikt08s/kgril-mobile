@@ -52,7 +52,7 @@ class TCartItem extends StatelessWidget {
                         text: 'Cho ',
                         style: Theme.of(context).textTheme.bodySmall),
                     TextSpan(
-                        text: cartItem.packageType,
+                        text: cartItem.packageQuantity.toString(),
                         style: Theme.of(context).textTheme.bodyLarge),
                   ],
                 ),

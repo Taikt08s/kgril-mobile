@@ -59,7 +59,7 @@ static const String homeAppbarTitle10 = "Express Yourself, Stitch by Stitch";
   static const String yourAccountCreatedTitle = "Tài khoản rạo thành công!";
   static const String yourAccountCreatedSubTitle = "Chào mừng đến với thế giới ẩm thực của bạn: Tài khoản của bạn đã được tạo, hãy bắt đầu tận hưởng niềm vui đặt đồ ăn trực tuyến ngay thôi!";
 
-  static const String homeAppBarTitle = "Good Morning, let's shopping";
+  static const String homeAppBarTitle = "Chào mừng đến với KGrill";
   static const String homeAppBarSubTitle = "おはよう ございます";
 
 }

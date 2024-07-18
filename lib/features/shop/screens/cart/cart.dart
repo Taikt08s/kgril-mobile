@@ -15,6 +15,7 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartController = Get.put(CartController());
+    cartController.fetchCart();
     return Scaffold(
       appBar: TAppBar(
           showBackArrow: true,
@@ -22,7 +23,6 @@ class CartScreen extends StatelessWidget {
               style: Theme.of(context).textTheme.headlineSmall)),
       body: Obx(
         () {
-          //nothing found widget
           final emptyWidget = TAnimationLoaderWidget(
               text: 'Giỏ hàng trống trơn',
               animation: TImages.screenLoadingAcheron,
@@ -42,17 +42,19 @@ class CartScreen extends StatelessWidget {
           }
         },
       ),
-      bottomNavigationBar: cartController.cartItems.isEmpty
-          ? const SizedBox()
-          : Padding(
-              padding: const EdgeInsets.all(TSizes.defaultSpace),
-              child: SizedBox(
-                  height: 60,
-                  child: ElevatedButton(
-                      onPressed: () => Get.to(() => const CheckoutScreen()),
-                      child: Obx(() => Text(
-                          'Thanh toán ${cartController.formatPrice(cartController.totalCartPrice.value)}')))),
-            ),
+      bottomNavigationBar: Obx(
+        () => cartController.cartItems.isEmpty
+            ? const SizedBox()
+            : Padding(
+                padding: const EdgeInsets.all(TSizes.defaultSpace),
+                child: SizedBox(
+                    height: 60,
+                    child: ElevatedButton(
+                        onPressed: () => Get.to(() => const CheckoutScreen()),
+                        child: Text(
+                            'Thanh toán ${cartController.formatPrice(cartController.totalCartPrice)}'))),
+              ),
+      ),
     );
   }
 }

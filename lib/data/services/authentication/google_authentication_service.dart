@@ -12,6 +12,7 @@ import '../../../utils/popups/full_screen_loader.dart';
 import '../../../utils/popups/loaders.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../shop/cart_service.dart';
 import 'authentication_service.dart';
 
 Future<void> handleGoogleSignIn(BuildContext context) async {
@@ -72,6 +73,8 @@ Future<void> handleGoogleSignIn(BuildContext context) async {
       final authService = AuthenticationService();
       await authService.saveTokenExpiration(expirationTime);
       authService.monitorTokenExpiration();
+
+      Get.put(() => CartService());
 
       TLoaders.successSnackBar(
           title: 'Chào mừng quay trở lại!',

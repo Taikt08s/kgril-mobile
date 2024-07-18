@@ -112,7 +112,8 @@ class UserProfileService {
     }
   }
 
-  Future<Map<String, Object>> updateUserProfile(Map<String, dynamic> updatedFields) async {
+  Future<Map<String, Object>> updateUserProfile(
+      Map<String, dynamic> updatedFields) async {
     String? accessToken = await getAccessToken();
     if (accessToken == null) {
       return {"success": false, "message": "No access token found"};
@@ -129,14 +130,17 @@ class UserProfileService {
     userData.addAll(updatedFields);
 
     try {
-      var response = await client.put(
-        Uri.parse('${TConnectionStrings.deployment}account/profile?id=$userId'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $accessToken',
-        },
-        body: jsonEncode(userData),
-      ).timeout(const Duration(seconds: 10));
+      var response = await client
+          .put(
+            Uri.parse(
+                '${TConnectionStrings.deployment}account/profile?id=$userId'),
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer $accessToken',
+            },
+            body: jsonEncode(userData),
+          )
+          .timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200) {
         if (kDebugMode) {
@@ -159,10 +163,15 @@ class UserProfileService {
       if (kDebugMode) {
         print('Error updating user profile: $e');
       }
-      return {
-        "success": false,
-        "message": 'Error updating user profile: $e'
-      };
+      return {"success": false, "message": 'Error updating user profile: $e'};
     }
+  }
+
+  Future<String?> getUserId() async {
+    var userProfile = await getUserProfile();
+    if (userProfile["success"] == true) {
+      return userProfile["data"]["data"]["user_id"];
+    }
+    return null;
   }
 }

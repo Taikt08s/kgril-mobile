@@ -23,10 +23,10 @@ class Store extends StatefulWidget {
   const Store({super.key});
 
   @override
-  _StoreState createState() => _StoreState();
+  StoreState createState() => StoreState();
 }
 
-class _StoreState extends State<Store> {
+class StoreState extends State<Store> {
   late Future<List<ProductModel>> comboNuong;
   late Future<List<ProductModel>> comboLau;
   late Future<List<ProductModel>> comboCom;
@@ -48,11 +48,14 @@ class _StoreState extends State<Store> {
       length: 4,
       child: Scaffold(
         appBar: TAppBar(
+          showBackArrow: false,
           title: Text('Trang chủ',
               style: Theme.of(context).textTheme.headlineMedium),
           actions: const [
             TCartCounterIcon(
-              iconColor: Colors.black,
+              iconColor: TColors.white,
+              counterBgColor: TColors.black,
+              counterTextColor: TColors.white,
             ),
           ],
         ),
@@ -68,7 +71,7 @@ class _StoreState extends State<Store> {
                     : TColors.white,
                 expandedHeight: 380,
                 flexibleSpace: Padding(
-                  padding: const EdgeInsets.all(TSizes.defaultSpace),
+                  padding: const EdgeInsets.all(TSizes.spaceBtwItems),
                   child: ListView(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
@@ -84,7 +87,11 @@ class _StoreState extends State<Store> {
                       const SizedBox(height: TSizes.spaceBtwItems),
 
                       ///Store categories
-                      TSectionHeading(title: 'Danh mục', onPressed: () {},showActionButton: false,),
+                      TSectionHeading(
+                        title: 'Danh mục',
+                        onPressed: () {},
+                        showActionButton: false,
+                      ),
                       const SizedBox(height: TSizes.spaceBtwItems / 1.5),
 
                       ///Categories
@@ -108,7 +115,8 @@ class _StoreState extends State<Store> {
                                       backgroundColor: Colors.transparent,
                                     ),
                                   ),
-                                  const SizedBox(height: TSizes.spaceBtwItems / 4),
+                                  const SizedBox(
+                                      height: TSizes.spaceBtwItems / 4),
 
                                   ///Text
                                   Flexible(
@@ -120,10 +128,11 @@ class _StoreState extends State<Store> {
                                         const TBrandTitleWithVerifiedIcon(
                                             title: 'Nướng',
                                             brandTextSize: TextSizes.large),
-                                        Text(
-                                          '10 combo',
-                                          overflow: TextOverflow.ellipsis,
-                                          style: Theme.of(context).textTheme.labelMedium)
+                                        Text('10 combo',
+                                            overflow: TextOverflow.ellipsis,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .labelMedium)
                                       ],
                                     ),
                                   ),
