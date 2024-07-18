@@ -151,4 +151,10 @@ class UserProfileController extends GetxController {
       imageUploading.value = false;
     }
   }
+
+  void updateAddress({required String address, required double latitude, required double longitude}) {
+    this.address.text = address;
+    this.latitude.text = latitude.toString();
+    this.longitude.text = longitude.toString();
+  }
 }

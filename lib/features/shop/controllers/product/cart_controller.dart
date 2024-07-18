@@ -8,7 +8,7 @@ import '../../models/cart_item_model.dart';
 class CartController extends GetxController {
   var isLoading = true.obs;
   var cartItems = <CartItemModel>[].obs;
-  static const double maxTotalPrice = 3000000;
+  static const double maxTotalPrice = 5000000;
   final CartService _cartService = CartService();
 
   @override
@@ -34,7 +34,7 @@ class CartController extends GetxController {
       await _cartService.updateCartItemQuantity(orderDetailId, quantity);
       cartItems.value = _cartService.cartItems;
     } else {
-      TLoaders.customToast(message: 'Tổng giá trị giỏ hàng không thể vượt quá 3 triệu VND');
+      TLoaders.customToast(message: 'Tổng giá trị giỏ hàng không thể vượt quá 5 triệu VND');
     }
   }
 

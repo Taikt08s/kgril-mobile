@@ -54,7 +54,7 @@ class CartScreen extends StatelessWidget {
                     child: ElevatedButton(
                         onPressed: isOverLimit ? null
                             : () => Get.to(() => const CheckoutScreen()),
-                        child: Text(isOverLimit ? 'Giỏ hàng không thể vượt quá 3 triệu VND'
+                        child: Text(isOverLimit ? 'Giỏ hàng không thể vượt quá 5 triệu VND'
                             : 'Thanh toán ${cartController.formatPrice(cartController.totalCartPrice)}'))),
               );
       }),

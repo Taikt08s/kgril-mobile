@@ -55,7 +55,11 @@ class ChangeAddress extends StatelessWidget {
                                 onPressed: () async {
                                   final result = await Get.to(const LocationPicker());
                                   if (result != null && result['address'] != null) {
-                                    controller.address.text = result['address'];
+                                    controller.updateAddress(
+                                      address: result['address'],
+                                      latitude: result['latitude'],
+                                      longitude: result['longitude'],
+                                    );
                                   }
                                 },
                               ),

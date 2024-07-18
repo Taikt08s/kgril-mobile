@@ -24,11 +24,39 @@ class TBottomAddToCart extends StatefulWidget {
 
 class TBottomAddToCartState extends State<TBottomAddToCart> {
   int quantity = 1;
+  bool hasShownToast = false;
+  late CartController cartController;
+
+  @override
+  void initState() {
+    super.initState();
+    cartController = Get.put(CartController());
+    final productInCart = cartController.cartItems
+        .firstWhereOrNull((item) => item.packageId == widget.product.productDetail.value.packageId);
+    if (productInCart != null) {
+      quantity = productInCart.packageQuantity;
+    }
+  }
+
+  bool canAddToCart(double productPrice) {
+    final newTotalPrice = cartController.totalCartPrice + (quantity * productPrice);
+    if (newTotalPrice > CartController.maxTotalPrice) {
+      if (!hasShownToast) {
+        hasShownToast = true;
+        TLoaders.customToast(message: 'Tổng giá trị giỏ hàng không thể vượt quá 5 triệu VND. Vui lòng kiểm tra giỏ hàng');
+        Future.delayed(const Duration(seconds: 2), () {
+          hasShownToast = false;
+        });
+      }
+      return false;
+    }
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final cartController = Get.put(CartController());
     final dark = THelperFunctions.isDarkMode(context);
+    final productPrice = widget.product.productDetail.value.packagePrice;
 
     return Container(
       padding: const EdgeInsets.symmetric(
@@ -69,9 +97,11 @@ class TBottomAddToCartState extends State<TBottomAddToCart> {
                 height: 40,
                 color: TColors.white,
                 onPressed: () {
-                  setState(() {
-                    quantity++;
-                  });
+                  if (canAddToCart(productPrice)) {
+                    setState(() {
+                      quantity++;
+                    });
+                  }
                 },
               ),
             ],
@@ -79,8 +109,10 @@ class TBottomAddToCartState extends State<TBottomAddToCart> {
           ElevatedButton(
               onPressed: () async {
                 final productId = widget.product.productDetail.value.packageId;
-                await cartController.addToCart(productId, quantity);
-                TLoaders.customToast(message: 'Đã thêm vào giỏ hàng');
+                if (canAddToCart(productPrice)) {
+                  await cartController.addToCart(productId, quantity);
+                  TLoaders.customToast(message: 'Đã thêm vào giỏ hàng');
+                }
               },
               style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.all(TSizes.md),
