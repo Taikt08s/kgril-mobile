@@ -102,8 +102,7 @@ class UserProfileController extends GetxController {
         "longitude": double.tryParse(longitude.text) ?? 0.0,
       };
 
-      final result =
-          await UserProfileService().updateUserProfile(updatedFields);
+      final result = await UserProfileService().updateUserProfile(updatedFields);
       if (result['success'] == true) {
         TLoaders.successSnackBar(
             title: 'Thành công', message: 'Cập nhật thành công');

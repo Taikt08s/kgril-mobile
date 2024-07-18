@@ -42,19 +42,22 @@ class CartScreen extends StatelessWidget {
           }
         },
       ),
-      bottomNavigationBar: Obx(
-        () => cartController.cartItems.isEmpty
+      bottomNavigationBar: Obx(() {
+        final isOverLimit =
+            cartController.totalCartPrice > CartController.maxTotalPrice;
+        return cartController.cartItems.isEmpty
             ? const SizedBox()
             : Padding(
                 padding: const EdgeInsets.all(TSizes.defaultSpace),
                 child: SizedBox(
                     height: 60,
                     child: ElevatedButton(
-                        onPressed: () => Get.to(() => const CheckoutScreen()),
-                        child: Text(
-                            'Thanh toán ${cartController.formatPrice(cartController.totalCartPrice)}'))),
-              ),
-      ),
+                        onPressed: isOverLimit ? null
+                            : () => Get.to(() => const CheckoutScreen()),
+                        child: Text(isOverLimit ? 'Giỏ hàng không thể vượt quá 3 triệu VND'
+                            : 'Thanh toán ${cartController.formatPrice(cartController.totalCartPrice)}'))),
+              );
+      }),
     );
   }
 }

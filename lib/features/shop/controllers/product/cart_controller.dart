@@ -6,8 +6,9 @@ import '../../../../data/services/shop/cart_service.dart';
 import '../../models/cart_item_model.dart';
 
 class CartController extends GetxController {
-  var cartItems = <CartItemModel>[].obs;
   var isLoading = true.obs;
+  var cartItems = <CartItemModel>[].obs;
+  static const double maxTotalPrice = 3000000;
   final CartService _cartService = CartService();
 
   @override
@@ -29,8 +30,18 @@ class CartController extends GetxController {
   }
 
   Future<void> updateCartItemQuantity(int orderDetailId, int quantity) async {
-    await _cartService.updateCartItemQuantity(orderDetailId, quantity);
-    cartItems.value = _cartService.cartItems;
+    if (canUpdateCartItemQuantity(orderDetailId, quantity)) {
+      await _cartService.updateCartItemQuantity(orderDetailId, quantity);
+      cartItems.value = _cartService.cartItems;
+    } else {
+      TLoaders.customToast(message: 'Tổng giá trị giỏ hàng không thể vượt quá 3 triệu VND');
+    }
+  }
+
+  bool canUpdateCartItemQuantity(int orderDetailId, int quantity) {
+    final currentCartItem = cartItems.firstWhere((item) => item.orderDetailId == orderDetailId);
+    final priceDifference = currentCartItem.packagePrice * (quantity - currentCartItem.packageQuantity);
+    return (totalCartPrice + priceDifference) <= maxTotalPrice;
   }
 
   double get totalCartPrice {
