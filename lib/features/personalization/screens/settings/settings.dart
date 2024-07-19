@@ -6,6 +6,7 @@ import 'package:kgrill_mobile/common/widgets/appbar/appbar.dart';
 import 'package:kgrill_mobile/common/widgets/custom_shapes/containers/primary_header_container.dart';
 import 'package:kgrill_mobile/common/widgets/list_titles/settings_menu_title.dart';
 import 'package:kgrill_mobile/common/widgets/texts/section_heading.dart';
+import 'package:kgrill_mobile/features/shop/screens/cart/cart.dart';
 import 'package:kgrill_mobile/utils/constants/colors.dart';
 import 'package:kgrill_mobile/utils/constants/sizes.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -156,7 +157,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                           icon: Iconsax.shopping_cart,
                           title: 'Giỏ Hàng',
                           subtitle: 'Chỉnh sửa giỏ hàng',
-                          onTap: () {},
+                          onTap: () => Get.to(() => const CartScreen()),
                         ),
                         TSettingsMenuTile(
                           icon: Iconsax.card,

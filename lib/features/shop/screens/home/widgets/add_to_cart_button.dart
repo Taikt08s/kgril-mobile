@@ -50,10 +50,10 @@ class ProductCardAddToCartButton extends StatelessWidget {
               child: Center(
                 child: quantity > 0
                     ? Text('$quantity',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge!
-                            .apply(color: TColors.white))
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .apply(color: TColors.white))
                     : const Icon(Iconsax.add, color: TColors.white),
               ),
             ),

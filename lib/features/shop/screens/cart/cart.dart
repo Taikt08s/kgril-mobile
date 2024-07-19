@@ -50,12 +50,29 @@ class CartScreen extends StatelessWidget {
             : Padding(
                 padding: const EdgeInsets.all(TSizes.defaultSpace),
                 child: SizedBox(
-                    height: 60,
-                    child: ElevatedButton(
-                        onPressed: isOverLimit ? null
-                            : () => Get.to(() => const CheckoutScreen()),
-                        child: Text(isOverLimit ? 'Giỏ hàng không thể vượt quá 5 triệu VND'
-                            : 'Thanh toán ${cartController.formatPrice(cartController.totalCartPrice)}'))),
+                  height: 70,
+                  child: ElevatedButton(
+                    onPressed: isOverLimit
+                        ? null
+                        : () => Get.to(() => const CheckoutScreen()),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(isOverLimit
+                            ? 'Giỏ hàng không thể vượt quá 5 triệu VND'
+                            : 'Thanh toán ${cartController.formatPrice(cartController.totalCartPrice)}'),
+                        const SizedBox(height: TSizes.smallSpace / 2),
+                        const Text(
+                          '(đã bao gồm thuế GTGT)',
+                          style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               );
       }),
     );

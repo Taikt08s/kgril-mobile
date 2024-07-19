@@ -3,7 +3,6 @@ import 'package:kgrill_mobile/common/widgets/appbar/appbar.dart';
 import 'package:kgrill_mobile/features/shop/screens/order/widgets/orders_list.dart';
 import 'package:kgrill_mobile/utils/constants/sizes.dart';
 
-import '../../../../utils/constants/colors.dart';
 
 class OrderScreen extends StatelessWidget {
   const OrderScreen({super.key});
@@ -14,10 +13,7 @@ class OrderScreen extends StatelessWidget {
       appBar: TAppBar(
           showBackArrow: false,
           title: Text('Lịch sử đặt hàng',
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineMedium!
-                  .apply(color: TColors.white))),
+              style: Theme.of(context).textTheme.headlineMedium)),
       body: const Padding(
         padding: EdgeInsets.all(TSizes.defaultSpace),
         child: TOrderListItems(),

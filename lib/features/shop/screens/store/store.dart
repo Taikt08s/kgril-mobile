@@ -42,6 +42,11 @@ class StoreState extends State<Store> {
     comboNuongLau = productService.fetchProductsByType('nướng + lẩu');
   }
 
+  Future<int> getProductCount(Future<List<ProductModel>> futureList) async {
+    final products = await futureList;
+    return products.length;
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -95,53 +100,93 @@ class StoreState extends State<Store> {
                       const SizedBox(height: TSizes.spaceBtwItems / 1.5),
 
                       ///Categories
-                      TGridLayout(
-                        itemCount: 4,
-                        mainAxisExtent: 80,
-                        itemBuilder: (_, index) {
-                          return GestureDetector(
-                            onTap: () {},
-                            child: TRoundedContainer(
-                              padding: const EdgeInsets.all(TSizes.xs / 2),
-                              showBorder: true,
-                              backgroundColor: Colors.transparent,
-                              child: Row(
-                                children: [
-                                  ///Icon
-                                  const Flexible(
-                                    child: TCircularImage(
-                                      image: TImages.grillIcon,
-                                      isNetworkImage: false,
-                                      backgroundColor: Colors.transparent,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                      height: TSizes.spaceBtwItems / 4),
+                      FutureBuilder<List<int>>(
+                        future: Future.wait([
+                          getProductCount(comboNuong),
+                          getProductCount(comboLau),
+                          getProductCount(comboCom),
+                          getProductCount(comboNuongLau),
+                        ]),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          } else if (snapshot.hasError) {
+                            return Center(
+                                child: Text('Error: ${snapshot.error}'));
+                          } else if (!snapshot.hasData ||
+                              snapshot.data!.isEmpty) {
+                            return const Center(
+                                child: Text('Không có sản phẩm'));
+                          } else {
+                            final counts = snapshot.data!;
+                            final categories = [
+                              'Nướng',
+                              'Lẩu',
+                              'Cơm',
+                              'Nướng&Lẩu',
+                            ];
+                            final images = [
+                              TImages.grillIcon,
+                              TImages.hotPotIcon,
+                              TImages.kimbapIcon,
+                              TImages.newIcon,
+                            ];
 
-                                  ///Text
-                                  Flexible(
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                            return TGridLayout(
+                              itemCount: categories.length,
+                              mainAxisExtent: 80,
+                              itemBuilder: (_, index) {
+                                return GestureDetector(
+                                  onTap: () {},
+                                  child: TRoundedContainer(
+                                    padding:
+                                        const EdgeInsets.all(0),
+                                    showBorder: true,
+                                    backgroundColor: Colors.transparent,
+                                    child: Row(
                                       children: [
-                                        const TBrandTitleWithVerifiedIcon(
-                                            title: 'Nướng',
-                                            brandTextSize: TextSizes.large),
-                                        Text('10 combo',
-                                            overflow: TextOverflow.ellipsis,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .labelMedium)
+                                        ///Icon
+                                        Flexible(
+                                          child: TCircularImage(
+                                            image: images[index],
+                                            isNetworkImage: false,
+                                            backgroundColor: Colors.transparent,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                            height: TSizes.spaceBtwItems / 4),
+
+                                        ///Text
+                                        Flexible(
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              TBrandTitleWithVerifiedIcon(
+                                                title: categories[index],
+                                                brandTextSize: TextSizes.large,
+                                              ),
+                                              Text('${counts[index]} combo',
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .labelMedium),
+                                            ],
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
-                          );
+                                );
+                              },
+                            );
+                          }
                         },
-                      )
+                      ),
                     ],
                   ),
                 ),

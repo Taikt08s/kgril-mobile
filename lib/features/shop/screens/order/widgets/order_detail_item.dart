@@ -1,27 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:kgrill_mobile/features/shop/models/cart_item_model.dart';
-import '../../../../common/widgets/texts/t_brand_title_text_with_verifed_icon.dart';
-import 'package:kgrill_mobile/features/shop/screens/product_detail/widgets/product_title.dart';
+import 'package:intl/intl.dart';
+import 'package:kgrill_mobile/features/shop/models/order_model.dart';
 
-import '../../../../utils/constants/colors.dart';
-import '../../../../utils/constants/sizes.dart';
-import '../../../../utils/helpers/helper_functions.dart';
-import '../../images/t_rounded_image.dart';
+import '../../../../../common/widgets/images/t_rounded_image.dart';
+import '../../../../../utils/constants/colors.dart';
+import '../../../../../utils/constants/sizes.dart';
+import '../../../../../utils/helpers/helper_functions.dart';
 
-class TCartItem extends StatelessWidget {
-  const TCartItem({
+class TOrderDetailItem extends StatelessWidget {
+  const TOrderDetailItem({
     super.key,
-    required this.cartItem,
+    required this.orderDetail,
   });
 
-  final CartItemModel cartItem;
+  final OrderDetailModel orderDetail;
+
+  String formatCurrency(double value) {
+    final formatter = NumberFormat('#,##0');
+    return formatter.format(value);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         TRoundedImage(
-          imageUrl: cartItem.packageThumbnailUrl,
+          imageUrl: orderDetail.packageThumbnailUrl,
           width: 60,
           height: 60,
           isNetworkImage: true,
@@ -33,18 +37,18 @@ class TCartItem extends StatelessWidget {
 
         const SizedBox(width: TSizes.spaceBtwItems),
 
-        ///Title, Price
+        /// Title, Price
         Expanded(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const TBrandTitleWithVerifiedIcon(title: 'KGrill'),
-              Flexible(
-                  child: TProductTitleText(
-                      title: cartItem.packageName, maxLines: 1)),
+              Text(orderDetail.packageName,
+                  style: Theme.of(context).textTheme.titleLarge,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis),
 
-              ///Attribute
+              /// Quantity
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -52,10 +56,10 @@ class TCartItem extends StatelessWidget {
                     TextSpan(
                       children: [
                         TextSpan(
-                            text: 'Cho ',
+                            text: 'Số lượng: ',
                             style: Theme.of(context).textTheme.bodySmall),
                         TextSpan(
-                            text: cartItem.packageSize.toString(),
+                            text: orderDetail.packageQuantity.toString(),
                             style: Theme.of(context).textTheme.bodyLarge),
                       ],
                     ),
@@ -64,10 +68,10 @@ class TCartItem extends StatelessWidget {
                     TextSpan(
                       children: [
                         TextSpan(
-                            text: 'Loại ',
+                            text: 'Giá: ',
                             style: Theme.of(context).textTheme.bodySmall),
                         TextSpan(
-                            text: cartItem.packageType.toString(),
+                            text: '${formatCurrency(orderDetail.packagePrice)}₫',
                             style: Theme.of(context).textTheme.bodyLarge),
                       ],
                     ),

@@ -8,6 +8,7 @@ import '../../models/cart_item_model.dart';
 class CartController extends GetxController {
   var isLoading = true.obs;
   var cartItems = <CartItemModel>[].obs;
+  var deliveryOrderId = ''.obs;
   static const double maxTotalPrice = 5000000;
   final CartService _cartService = CartService();
 
@@ -22,6 +23,7 @@ class CartController extends GetxController {
     await _cartService.fetchCart();
     cartItems.value = _cartService.cartItems;
     isLoading.value = false;
+    deliveryOrderId.value = _cartService.orderId.value;
   }
 
   Future<void> addToCart(int packageId, int quantity) async {

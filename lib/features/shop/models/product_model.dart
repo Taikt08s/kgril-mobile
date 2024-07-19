@@ -1,9 +1,9 @@
 class ProductModel {
-   int packageId;
-   String packageName;
-   double packagePrice;
-   String packageType;
-   String packageThumbnailUrl;
+  int packageId;
+  String packageName;
+  double packagePrice;
+  String packageType;
+  String packageThumbnailUrl;
 
   ProductModel({
     required this.packageId,
@@ -19,17 +19,17 @@ class ProductModel {
       packageName: json['package_name'],
       packagePrice: json['package_price'],
       packageType: json['package_type'],
-      packageThumbnailUrl: json['package_thumbnail_url'],
+      packageThumbnailUrl: json['package_thumbnail_url'] ?? '',
     );
   }
 
-   Map<String, dynamic> toJson() {
-     return {
-       'package_id': packageId,
-       'package_name': packageName,
-       'package_price': packagePrice,
-       'package_type': packageType,
-       'package_thumbnail_url': packageThumbnailUrl,
-     };
-   }
+  Map<String, dynamic> toJson() {
+    return {
+      'package_id': packageId,
+      'package_name': packageName,
+      'package_price': packagePrice,
+      'package_type': packageType,
+      'package_thumbnail_url': packageThumbnailUrl,
+    };
+  }
 }

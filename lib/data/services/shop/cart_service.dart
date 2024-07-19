@@ -12,6 +12,7 @@ import '../personalization/user_profile_service.dart';
 class CartService {
   var client = http.Client();
   var cartItems = <CartItemModel>[].obs;
+  var orderId = ''.obs;
   final UserProfileService _userProfileService = UserProfileService();
   final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
 
@@ -43,6 +44,7 @@ class CartService {
         final Map<String, dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
 
         if (data['data'] != null && data['data']['order_id'] != null) {
+          orderId.value = data['data']['order_id'].toString();
           if (data['data']['order_detail_list'] != null && data['data']['order_detail_list'].isNotEmpty) {
             cartItems.value = (data['data']['order_detail_list'] as List)
                 .map((item) => CartItemModel.fromJson(item))

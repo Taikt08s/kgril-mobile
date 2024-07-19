@@ -43,7 +43,6 @@ class TCartItems extends StatelessWidget {
                           },
                           remove: () async {
                             if (item.packageQuantity > 1) {
-                              await Future.delayed(const Duration(milliseconds: 400));
                               await cartController.updateCartItemQuantity(item.orderDetailId, item.packageQuantity - 1);
                             } else {
                               cartController.removeFromCartDialog(item.orderDetailId);

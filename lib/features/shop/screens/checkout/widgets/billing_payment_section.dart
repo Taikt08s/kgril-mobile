@@ -8,7 +8,9 @@ import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/helpers/helper_functions.dart';
 
 class TBillingPaymentSection extends StatelessWidget {
-  const TBillingPaymentSection({super.key});
+  const TBillingPaymentSection({super.key, required this.paymentMethod});
+
+  final String paymentMethod;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class TBillingPaymentSection extends StatelessWidget {
               child: const Image(image: AssetImage(TImages.paypal), fit: BoxFit.contain),
             ),
             const SizedBox(width: TSizes.spaceBtwItems / 2),
-            Text('Paypal', style: Theme.of(context).textTheme.bodyLarge),
+            Text(paymentMethod, style: Theme.of(context).textTheme.bodyLarge),
           ],
         ),
       ],

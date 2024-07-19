@@ -56,6 +56,8 @@ class TImages {
 //--Icon Images
   static const String grillIcon = "assets/images/icons/grill.gif";
   static const String hotPotIcon = "assets/images/icons/hot-pot.gif";
+  static const String kimbapIcon = "assets/images/icons/kimbap.gif";
+  static const String newIcon = "assets/images/icons/new.gif";
 
 //--Profiles Images
   static const String userImage1 = "assets/images/profiles/profile_image_1.png";
