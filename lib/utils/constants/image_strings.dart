@@ -68,5 +68,6 @@ class TImages {
 //--Payment Images
   static const String paypal = "assets/images/payments/paypal.png";
   static const String visa = "assets/images/payments/visa.png";
+  static const String cod = "assets/images/payments/cash-on-delivery.png";
 
 }

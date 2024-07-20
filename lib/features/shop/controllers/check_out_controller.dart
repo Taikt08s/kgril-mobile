@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:kgrill_mobile/features/shop/controllers/product/cart_controller.dart';
 
 import '../../../common/widgets/success_screen/success_screen.dart';
 import '../../../data/services/personalization/user_profile_service.dart';
@@ -19,13 +18,11 @@ class CheckoutController extends GetxController {
     required double latitude,
     required double longitude,
   }) async {
-    // Fetch the required data
-    final cartController = Get.find<CartController>();
 
     // Create the CheckoutModel
     final checkoutData = CheckoutModel(
       deliveryOrderId: deliveryOrderId,
-      orderValue: cartController.totalCartPrice,
+      orderValue: orderValue,
       shippedAddress: shippingAddress,
       orderLatitude: latitude,
       orderLongitude: longitude,

@@ -22,7 +22,7 @@ class OrderDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
     final vat = order.orderValue * 0.1;
-
+    final orderTotalPrice = (order.orderValue -order.shippingFee -order.orderValue * 0.1);
     final statusSteps = [
       {
         'title': 'Đang xử lí',
@@ -134,7 +134,7 @@ class OrderDetailScreen extends StatelessWidget {
                 backgroundColor: dark ? TColors.black : TColors.white,
                 child:   Column(
                   children: [
-                    TBillingAmountSection(orderValue: order.orderValue,
+                    TBillingAmountSection(orderValue: orderTotalPrice,
                       shippingFee: order.shippingFee,
                       vat: vat),
                     const SizedBox(height: TSizes.spaceBtwItems),
